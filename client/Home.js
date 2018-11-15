@@ -22,7 +22,7 @@ class Home extends Component {
       .then(res => {
         const user = res.data;
         if (user) {
-
+          localStorage['user'] = JSON.stringify(user)
         }
       })
   }

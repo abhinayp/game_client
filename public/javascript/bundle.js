@@ -13723,6 +13723,10 @@ var _react = __webpack_require__(26);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _axios = __webpack_require__(53);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -13775,8 +13779,22 @@ var Game = function (_Component) {
     this.setState({ traps: traps });
   };
 
+  Game.prototype.gettraps = function gettraps() {
+    try {
+      var user = JSON.parse(localStorage['user']);
+      _axios2.default.defaults.headers.common['Authorization'] = user['api_token'];
+    } catch (e) {
+      console.log(e);
+    }
+    _axios2.default.get('http://localhost:5000/traps').then(function (res) {
+      var traps = res.data;
+      console.log(traps);
+      // this.setState({users: users});
+    });
+  };
+
   Game.prototype.render = function render() {
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.gettraps()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -13851,6 +13869,8 @@ var _temp2 = function () {
   }
 
   __REACT_HOT_LOADER__.register(_react2, '_react2', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
+
+  __REACT_HOT_LOADER__.register(_axios2, '_axios2', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
 
   __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
 
@@ -13935,7 +13955,9 @@ var Home = function (_Component) {
     var username = this.state.username;
     _axios2.default.post('http://localhost:5000/create_user', { name: username, role: 'hero' }).then(function (res) {
       var user = res.data;
-      if (user) {}
+      if (user) {
+        localStorage['user'] = JSON.stringify(user);
+      }
     });
   };
 

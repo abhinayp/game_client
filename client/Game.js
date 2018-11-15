@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 class Game extends Component {
 
@@ -24,11 +25,28 @@ class Game extends Component {
     this.setState({traps: traps})
   }
 
+  gettraps() {
+    try {
+      let user = JSON.parse(localStorage['user']);
+      axios.defaults.headers.common['Authorization'] = user['api_token'];
+    }
+    catch(e) {
+      console.log(e);
+    }
+    axios.get(`http://localhost:5000/traps`)
+      .then(res => {
+        const traps = res.data;
+        console.log(traps);
+        // this.setState({users: users});
+      })
+  }
+
   render() {
     return (
       <div>
         <div>
           {this.renderTable()}
+          {this.gettraps()}
         </div>
       </div>
     )
