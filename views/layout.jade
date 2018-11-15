@@ -1,7 +1,9 @@
 doctype html
 html
+  block config
+    include config
   head
-    title= title
+    title #{siteTitle}
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css')
     // jQuery library
@@ -11,6 +13,6 @@ html
     // Latest compiled JavaScript
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js')
 
-  body
+  body.bg-light(class="#{bodyClass}")
     block content
     script(src="/javascript/bundle.js")

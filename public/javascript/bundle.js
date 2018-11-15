@@ -12673,23 +12673,37 @@ var App = function (_Component) {
 
 
     _this.state = {
-      data: []
+      users: []
     };
     return _this;
   }
 
-  App.prototype.connectBackend = function connectBackend() {
+  App.prototype.createUser = function createUser() {
+    _axios2.default.post('http://localhost:5000/create_user', { name: 'abhinay', role: 'hero' }).then(function (res) {
+      var persons = res.data;
+      // this.setState({data: persons});
+    });
+  };
+
+  App.prototype.getUsers = function getUsers() {
     var _this2 = this;
 
-    _axios2.default.get('http://localhost:5000').then(function (res) {
-      var persons = res.data;
-      _this2.setState({ data: persons });
+    _axios2.default.get('http://localhost:5000/users').then(function (res) {
+      var users = res.data;
+      _this2.setState({ users: users });
     });
   };
 
   App.prototype.render = function render() {
-    this.connectBackend();
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, 'I\'m Abhinay, how are you. ', this.state.data));
+    // this.createUser()
+    var user = this.state.users || [];
+    var user_view = [];
+
+    user_view = user.map(function (user, index) {
+      return _react2.default.createElement('div', { key: index, className: 'col-md-3' }, _react2.default.createElement('div', { className: 'bg-light p-3 text-center shadow-sm mt-2 mb-2' }, _react2.default.createElement('div', { className: 'row' }, _react2.default.createElement('div', { className: 'col-md-6' }, _react2.default.createElement('div', null, _react2.default.createElement('b', null, 'Username')), _react2.default.createElement('div', null, user['name'])), _react2.default.createElement('div', { className: 'col-md-6' }, _react2.default.createElement('div', null, _react2.default.createElement('b', null, 'Role')), _react2.default.createElement('div', null, user['role'])))));
+    });
+
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-3 py-1' }, _react2.default.createElement('button', { className: 'btn btn-primary btn-sm', onClick: this.getUsers.bind(this) }, 'Get Users'), _react2.default.createElement('div', { className: 'row mt-2' }, user_view)));
   };
 
   return App;
@@ -29843,11 +29857,15 @@ var _Game = __webpack_require__(217);
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Home = __webpack_require__(218);
+
+var _Home2 = _interopRequireDefault(_Home);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-var registeredComponents = [_App2.default, _Game2.default];
+var registeredComponents = [_App2.default, _Game2.default, _Home2.default];
 
 for (var i in registeredComponents) {
   var C = registeredComponents[i];
@@ -29879,6 +29897,8 @@ var _temp2 = function () {
   __REACT_HOT_LOADER__.register(_App2, '_App2', '/Users/abhinay/GitHub/game_client/public/javascript/index.js');
 
   __REACT_HOT_LOADER__.register(_Game2, '_Game2', '/Users/abhinay/GitHub/game_client/public/javascript/index.js');
+
+  __REACT_HOT_LOADER__.register(_Home2, '_Home2', '/Users/abhinay/GitHub/game_client/public/javascript/index.js');
 
   __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game_client/public/javascript/index.js');
 
@@ -34483,6 +34503,130 @@ var _temp2 = function () {
   __REACT_HOT_LOADER__.register(_default, '_default', '/Users/abhinay/GitHub/game_client/client/Game.js');
 
   __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game_client/client/Game.js');
+}();
+
+;
+
+/***/ }),
+/* 218 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(50);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(194);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var Home = function (_Component) {
+  _inherits(Home, _Component);
+
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.state = {
+      username: ''
+    };
+    return _this;
+  }
+
+  Home.prototype.onChangeUsername = function onChangeUsername(event) {
+    var value = event.target.value;
+    this.setState({ username: value });
+  };
+
+  Home.prototype.createUser = function createUser() {
+    var username = this.state.username;
+    _axios2.default.post('http://localhost:5000/create_user', { name: username, role: 'hero' }).then(function (res) {
+      var user = res.data;
+      if (user) {}
+    });
+  };
+
+  Home.prototype.render = function render() {
+    var _this2 = this;
+
+    return _react2.default.createElement('div', { className: 'position-relative' }, _react2.default.createElement('div', { className: 'text-center', style: { height: '100vh' } }, _react2.default.createElement('div', { className: 'page-center' }, _react2.default.createElement('div', { className: 'b-fluid shadow-lg p-5 rounded' }, _react2.default.createElement('h1', { className: 'text-primary mb-3' }, 'Adventure Game'), _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter Username', value: this.state.username, onChange: function onChange(event) {
+        return _this2.onChangeUsername(event);
+      } }), _react2.default.createElement('div', { className: 'mt-4' }, _react2.default.createElement('button', { className: 'btn b-transparent border border-primary text-primary btn-action btn-sm', onClick: this.createUser.bind(this) }, 'Start Game'))))));
+  };
+
+  return Home;
+}(_react.Component);
+
+var _default = Home;
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(Home, 'Home', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/abhinay/GitHub/game_client/client/Home.js');
+}();
+
+;
+;
+
+var _temp2 = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(_react2, '_react2', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_axios2, '_axios2', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_classCallCheck, '_classCallCheck', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_possibleConstructorReturn, '_possibleConstructorReturn', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_inherits, '_inherits', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(Home, 'Home', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_default, '_default', '/Users/abhinay/GitHub/game_client/client/Home.js');
+
+  __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game_client/client/Home.js');
 }();
 
 ;
