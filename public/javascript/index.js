@@ -1,5 +1,14 @@
 import React from 'react'
 import { render } from 'react-dom'
 import App from './../../client/App'
+import Game from './../../client/Game'
 
-render(<App />, document.getElementById('app'));
+let registeredComponents = [App, Game];
+
+for (let i in registeredComponents) {
+  let C = registeredComponents[i];
+  let dElement = document.getElementById(C.name)
+  if (dElement) {
+    render(<C />, dElement);
+  }
+}
