@@ -11,7 +11,24 @@ class Game extends Component {
         x: 15,
         y: 15
       },
-      traps: []
+      traps: [],
+      user: {},
+    }
+  }
+
+  componentDidMount() {
+    this.setUser()
+  }
+
+  setUser() {
+    try {
+      this.getUser(() => {
+        this.gettraps()
+      });
+    }
+    catch(e) {
+      console.log(e);
+      window.location.replace("/");
     }
   }
 
@@ -21,23 +38,48 @@ class Game extends Component {
     let trap_index = traps.findIndex(t => t.x == x && t.y == y)
     if (trap_index < 0) {
       traps.push(trap);
+      this.createTrap(trap).bind(this);
     }
-    this.setState({traps: traps})
+    // this.setState({traps: traps})
+  }
+
+  getUser(callback) {
+    let user = JSON.parse(localStorage['user']);
+    axios.get(`http://localhost:5000/users/${user['id']}`)
+      .then(res => {
+        const u = res.data;
+        if (u) {
+          localStorage['user'] = JSON.stringify(u);
+          axios.defaults.headers.common['Authorization'] = u['api_token'];
+          this.setState({user: u});
+        }
+        if (callback) {
+          callback()
+        }
+      })
+  }
+
+  logout() {
+    localStorage['user'] = null;
+    this.setUser()
   }
 
   gettraps() {
-    try {
-      let user = JSON.parse(localStorage['user']);
-      axios.defaults.headers.common['Authorization'] = user['api_token'];
-    }
-    catch(e) {
-      console.log(e);
-    }
-    axios.get(`http://localhost:5000/traps`)
+    let user = JSON.parse(localStorage['user']);
+    axios.get(`http://localhost:5000/traps/${user['role']}`)
       .then(res => {
         const traps = res.data;
-        console.log(traps);
-        // this.setState({users: users});
+        if (traps) {
+          this.setState({traps: traps});
+        }
+      })
+  }
+
+  createTrap(trap) {
+    axios.post(`http://localhost:5000/create_trap`, trap)
+      .then(res => {
+        const traps = res.data;
+        this.gettraps()
       })
   }
 
@@ -46,7 +88,7 @@ class Game extends Component {
       <div>
         <div>
           {this.renderTable()}
-          {this.gettraps()}
+          {this.renderUserDetails()}
         </div>
       </div>
     )
@@ -92,6 +134,23 @@ class Game extends Component {
       <tbody className="game-body">
         {rows_cell}
       </tbody>
+    )
+  }
+
+  renderUserDetails() {
+    let user = this.state.user
+    return (
+      <div className="user-details">
+        <div className="bg-light m-4 rounded shadow">
+          <div className="px-3 py-2">
+            <div><span className="text-primary">{user['name']}</span><small className="bg-secondary text-light px-2 py-1 rounded ml-1">{user['role']}</small></div>
+            <div className="py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2"><small>{user['api_token']}</small></div>
+          </div>
+          <div className="btn-danger text-center px-2 py-1 rounded-bottom c-pointer" onClick={this.logout.bind(this)}>
+            Logout
+          </div>
+        </div>
+      </div>
     )
   }
 }

@@ -13762,10 +13762,28 @@ var Game = function (_Component) {
         x: 15,
         y: 15
       },
-      traps: []
+      traps: [],
+      user: {}
     };
     return _this;
   }
+
+  Game.prototype.componentDidMount = function componentDidMount() {
+    this.setUser();
+  };
+
+  Game.prototype.setUser = function setUser() {
+    var _this2 = this;
+
+    try {
+      this.getUser(function () {
+        _this2.gettraps();
+      });
+    } catch (e) {
+      console.log(e);
+      window.location.replace("/");
+    }
+  };
 
   Game.prototype.onClickCell = function onClickCell(x, y) {
     var traps = this.state.traps;
@@ -13775,26 +13793,56 @@ var Game = function (_Component) {
     });
     if (trap_index < 0) {
       traps.push(trap);
+      this.createTrap(trap).bind(this);
     }
-    this.setState({ traps: traps });
+    // this.setState({traps: traps})
+  };
+
+  Game.prototype.getUser = function getUser(callback) {
+    var _this3 = this;
+
+    var user = JSON.parse(localStorage['user']);
+    _axios2.default.get('http://localhost:5000/users/' + user['id']).then(function (res) {
+      var u = res.data;
+      if (u) {
+        localStorage['user'] = JSON.stringify(u);
+        _axios2.default.defaults.headers.common['Authorization'] = u['api_token'];
+        _this3.setState({ user: u });
+      }
+      if (callback) {
+        callback();
+      }
+    });
+  };
+
+  Game.prototype.logout = function logout() {
+    localStorage['user'] = null;
+    this.setUser();
   };
 
   Game.prototype.gettraps = function gettraps() {
-    try {
-      var user = JSON.parse(localStorage['user']);
-      _axios2.default.defaults.headers.common['Authorization'] = user['api_token'];
-    } catch (e) {
-      console.log(e);
-    }
-    _axios2.default.get('http://localhost:5000/traps').then(function (res) {
+    var _this4 = this;
+
+    var user = JSON.parse(localStorage['user']);
+    _axios2.default.get('http://localhost:5000/traps/' + user['role']).then(function (res) {
       var traps = res.data;
-      console.log(traps);
-      // this.setState({users: users});
+      if (traps) {
+        _this4.setState({ traps: traps });
+      }
+    });
+  };
+
+  Game.prototype.createTrap = function createTrap(trap) {
+    var _this5 = this;
+
+    _axios2.default.post('http://localhost:5000/create_trap', trap).then(function (res) {
+      var traps = res.data;
+      _this5.gettraps();
     });
   };
 
   Game.prototype.render = function render() {
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.gettraps()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.renderUserDetails()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -13802,7 +13850,7 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderTableBody = function renderTableBody() {
-    var _this2 = this;
+    var _this6 = this;
 
     var gridSize = this.state.gridSize;
     var traps = this.state.traps;
@@ -13823,7 +13871,7 @@ var Game = function (_Component) {
         }
 
         var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class + ' c-pointer', onClick: function onClick() {
-            return _this2.onClickCell(j, i);
+            return _this6.onClickCell(j, i);
           } });
 
         cols_cell.push(c);
@@ -13841,6 +13889,11 @@ var Game = function (_Component) {
     }
 
     return _react2.default.createElement('tbody', { className: 'game-body' }, rows_cell);
+  };
+
+  Game.prototype.renderUserDetails = function renderUserDetails() {
+    var user = this.state.user;
+    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
   };
 
   return Game;
@@ -13941,32 +13994,93 @@ var Home = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.state = {
-      username: ''
+      username: '',
+      apiToken: '',
+      showLogin: false
     };
     return _this;
   }
+
+  Home.prototype.componentDidMount = function componentDidMount() {
+    this.setUser();
+  };
+
+  Home.prototype.setUser = function setUser() {
+    try {
+      var user = JSON.parse(localStorage['user']);
+      // axios.defaults.headers.common['Authorization'] = user['api_token'];
+      if (user && user['name']) {
+        window.location.replace("/game");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   Home.prototype.onChangeUsername = function onChangeUsername(event) {
     var value = event.target.value;
     this.setState({ username: value });
   };
 
+  Home.prototype.onChangeApiToken = function onChangeApiToken(event) {
+    var value = event.target.value;
+    this.setState({ apiToken: value });
+  };
+
+  Home.prototype.onClickLogin = function onClickLogin(status) {
+    this.setState({ showLogin: status });
+  };
+
   Home.prototype.createUser = function createUser() {
+    var _this2 = this;
+
     var username = this.state.username;
     _axios2.default.post('http://localhost:5000/create_user', { name: username, role: 'hero' }).then(function (res) {
       var user = res.data;
-      if (user) {
+      if (user && user['name']) {
         localStorage['user'] = JSON.stringify(user);
+        _this2.setUser();
+      }
+    });
+  };
+
+  Home.prototype.loginApiToken = function loginApiToken() {
+    var _this3 = this;
+
+    var apiToken = this.state.apiToken;
+    _axios2.default.post('http://localhost:5000/login/api_token', { api_token: apiToken }).then(function (res) {
+      var user = res.data;
+      console.log(user);
+      if (user && user['name']) {
+        console.log(user);
+        localStorage['user'] = JSON.stringify(user);
+        _this3.setUser();
       }
     });
   };
 
   Home.prototype.render = function render() {
-    var _this2 = this;
+    return _react2.default.createElement('div', { className: 'position-relative' }, _react2.default.createElement('div', { className: 'text-center', style: { height: '100vh' } }, _react2.default.createElement('div', { className: 'page-center' }, _react2.default.createElement('div', { className: 'b-fluid shadow-lg p-5 rounded' }, _react2.default.createElement('h1', { className: 'text-primary mb-3' }, 'Adventure Game'), this.state.showLogin ? this.renderLogin() : this.renderCreateUser()))));
+  };
 
-    return _react2.default.createElement('div', { className: 'position-relative' }, _react2.default.createElement('div', { className: 'text-center', style: { height: '100vh' } }, _react2.default.createElement('div', { className: 'page-center' }, _react2.default.createElement('div', { className: 'b-fluid shadow-lg p-5 rounded' }, _react2.default.createElement('h1', { className: 'text-primary mb-3' }, 'Adventure Game'), _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter Username', value: this.state.username, onChange: function onChange(event) {
-        return _this2.onChangeUsername(event);
-      } }), _react2.default.createElement('div', { className: 'mt-4' }, _react2.default.createElement('button', { className: 'btn b-transparent border border-primary text-primary btn-action btn-sm', onClick: this.createUser.bind(this) }, 'Start Game'))))));
+  Home.prototype.renderCreateUser = function renderCreateUser() {
+    var _this4 = this;
+
+    return _react2.default.createElement('div', null, _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter Username', value: this.state.username, onChange: function onChange(event) {
+        return _this4.onChangeUsername(event);
+      } }), _react2.default.createElement('div', { className: 'mt-1' }, _react2.default.createElement('small', null, _react2.default.createElement('a', { href: '#', onClick: function onClick() {
+        return _this4.onClickLogin(true);
+      } }, 'Existing user? Login using password'))), _react2.default.createElement('div', { className: 'mt-3' }, _react2.default.createElement('button', { className: 'btn b-transparent border border-primary text-primary btn-action btn-sm', onClick: this.createUser.bind(this) }, 'Start Game')));
+  };
+
+  Home.prototype.renderLogin = function renderLogin() {
+    var _this5 = this;
+
+    return _react2.default.createElement('div', null, _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter Password', value: this.state.apiToken, onChange: function onChange(event) {
+        return _this5.onChangeApiToken(event);
+      } }), _react2.default.createElement('div', { className: 'mt-1' }, _react2.default.createElement('small', null, _react2.default.createElement('a', { href: '#', onClick: function onClick() {
+        return _this5.onClickLogin(false);
+      } }, 'New user? Play game'))), _react2.default.createElement('div', { className: 'mt-3' }, _react2.default.createElement('button', { className: 'btn b-transparent border border-primary text-primary btn-action btn-sm', onClick: this.loginApiToken.bind(this) }, 'Continue Game')));
   };
 
   return Home;
