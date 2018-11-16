@@ -13731,6 +13731,10 @@ var _jquery = __webpack_require__(127);
 
 var $ = _interopRequireWildcard(_jquery);
 
+var _reactAwesomeModal = __webpack_require__(225);
+
+var _reactAwesomeModal2 = _interopRequireDefault(_reactAwesomeModal);
+
 function _interopRequireWildcard(obj) {
   if (obj && obj.__esModule) {
     return obj;
@@ -13787,7 +13791,8 @@ var Game = function (_Component) {
       instructions: '',
       messages: [],
       messageNumber: 0,
-      hideAll: false
+      hideAll: false,
+      winModal: false
     };
     return _this;
   }
@@ -13802,10 +13807,15 @@ var Game = function (_Component) {
     this.setState({ hideAll: !hideAll });
   };
 
+  Game.prototype.winModal = function winModal(status) {
+    status = status || false;
+    this.setState({ winModal: status });
+  };
+
   Game.prototype.setMessages = function setMessages() {
     var _this2 = this;
 
-    var messages = [{ message: 'Welcome to battle field', interval: 50 }, { message: 'You are here to find the traps set by your enimies', interval: 4000 }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 10000 }, { message: null, interval: 10000 }];
+    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 50 }, { message: 'Welcome to battle field', interval: 8000 }, { message: 'You are here to find the traps set by your enimies', interval: 4000 }, { message: null, interval: 6000 }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 40000 }, { message: null, interval: 4000 }];
     this.setState({ messages: messages }, function () {
       _this2.botMessages();
     });
@@ -14007,15 +14017,13 @@ var Game = function (_Component) {
     var traps = this.state.traps;
     var deTraps = this.state.deTraps;
     if (Array.isArray(traps) && Array.isArray(deTraps) && traps.length != 0 && traps.length == deTraps.length) {
-      this.setState({ win: true, showTraps: true }, function () {
-        alert("You Won!");
-      });
+      this.setState({ win: true, showTraps: true, winModal: true });
     }
   };
 
   Game.prototype.render = function render() {
 
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderHideAll()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderHideAll()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -14119,7 +14127,7 @@ var Game = function (_Component) {
 
     return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in', onClick: function onClick() {
         return _this15.showTraps(true);
-      } }, this.state.instructions));
+      } }, _react2.default.createElement('div', null, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:')), this.state.instructions));
   };
 
   Game.prototype.renderHideAll = function renderHideAll() {
@@ -14135,6 +14143,16 @@ var Game = function (_Component) {
     };
 
     return _react2.default.createElement('div', { className: 'text-center my-3', style: styles }, _react2.default.createElement('small', null, _react2.default.createElement('a', { className: 'text-light c-pointer', onClick: this.hideAll.bind(this) }, text)));
+  };
+
+  Game.prototype.renderWin = function renderWin() {
+    var _this16 = this;
+
+    return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.winModal, effect: 'fadeInDown', onClickAway: function onClickAway() {
+        return _this16.winModal(false);
+      } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('h1', { className: 'p-5 text-center text-primary' }, 'You Won!'), _react2.default.createElement('div', { className: 'text-center' }, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: function onClick() {
+        return _this16.winModal(false);
+      } }, 'Close')))));
   };
 
   return Game;
@@ -14167,6 +14185,8 @@ var _temp2 = function () {
   __REACT_HOT_LOADER__.register(_axios2, '_axios2', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
 
   __REACT_HOT_LOADER__.register($, '$', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
+
+  __REACT_HOT_LOADER__.register(_reactAwesomeModal2, '_reactAwesomeModal2', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
 
   __REACT_HOT_LOADER__.register(_interopRequireWildcard, '_interopRequireWildcard', '/Users/abhinay/GitHub/game/game_client/client/Game.js');
 
@@ -45087,6 +45107,628 @@ var _temp2 = function () {
   __REACT_HOT_LOADER__.register(dElement, 'dElement', '/Users/abhinay/GitHub/game/game_client/public/javascript/index.js');
 
   __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/public/javascript/index.js');
+}();
+
+;
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(0, -100px, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInDown.js');
+}();
+
+;
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(-100px, 0, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInLeft.js');
+}();
+
+;
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(100px, 0, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInRight.js');
+}();
+
+;
+
+/***/ }),
+/* 224 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(0, 100px, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInUp.js');
+}();
+
+;
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = __webpack_require__(26);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _style = __webpack_require__(226);
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var Modal = function (_Component) {
+    _inherits(Modal, _Component);
+
+    function Modal(props) {
+        _classCallCheck(this, Modal);
+
+        var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
+
+        var effect = props.effect || 'fadeInDown';
+        _this.setSize(effect);
+        _this.state = {
+            visible: props.visible,
+            style: _style2.default[effect]
+        };
+        return _this;
+    }
+
+    _createClass(Modal, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(_ref) {
+            var visible = _ref.visible,
+                _ref$effect = _ref.effect,
+                effect = _ref$effect === undefined ? 'fadeInDown' : _ref$effect;
+
+            this.setState({
+                visible: visible
+            });
+            this.setSize(effect);
+            this.setStyles(effect);
+        }
+    }, {
+        key: 'setStyles',
+        value: function setStyles(effect) {
+            if (this.props && this.props.styles) {
+                _style2.default[effect].panel = _extends({}, _style2.default[effect].panel, this.props.styles);
+            }
+        }
+    }, {
+        key: 'setSize',
+        value: function setSize(effect) {
+            if (this.props && this.props.width) {
+                if (this.props.width.charAt(this.props.width.length - 1) === '%') {
+                    // Use Percentage
+                    var width = this.props.width.slice(0, -1);
+                    _style2.default[effect].panel.width = width + '%';
+                } else if (this.props.width.charAt(this.props.width.length - 1) === 'x') {
+                    // Use Pixels
+                    var _width = this.props.width.slice(0, -2);
+                    _style2.default[effect].panel.width = _width + 'px';
+                } else {
+                    // Defaults
+                    _style2.default[effect].panel.width = this.props.width + 'px';
+                }
+            }
+            if (this.props && this.props.height) {
+                if (this.props.height.charAt(this.props.height.length - 1) === '%') {
+                    // Use Percentage
+                    var height = this.props.height.slice(0, -1);
+                    _style2.default[effect].panel.height = height + 'vh';
+                } else if (this.props.height.charAt(this.props.height.length - 1) === 'x') {
+                    // Use Pixels
+                    var _height = this.props.height.slice(0, -2);
+                    _style2.default[effect].panel.height = _height + 'px';
+                } else {
+                    // Defaults
+                    _style2.default[effect].panel.height = this.props.height + 'px';
+                }
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement('div', null, _react2.default.createElement('div', { style: this.state.visible ? this.state.style.container : this.state.style.containerHidden }, _react2.default.createElement('div', { style: this.state.visible ? _extends({}, this.state.style.panel) : this.state.style.panelHidden }, this.props.children), _react2.default.createElement('div', { style: this.state.visible ? this.state.style.mask : this.state.style.maskHidden, onClick: this.props.onClickAway ? this.props.onClickAway : null })));
+        }
+    }]);
+
+    return Modal;
+}(_react.Component);
+
+exports.default = Modal;
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_extends, "_extends", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_createClass, "_createClass", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_react2, "_react2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_style2, "_style2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, "_interopRequireDefault", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_classCallCheck, "_classCallCheck", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_possibleConstructorReturn, "_possibleConstructorReturn", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_inherits, "_inherits", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(Modal, "Modal", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_typeof, "_typeof", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_extends, "_extends", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_createClass, "_createClass", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_react2, "_react2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_style2, "_style2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, "_interopRequireDefault", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_classCallCheck, "_classCallCheck", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_possibleConstructorReturn, "_possibleConstructorReturn", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_inherits, "_inherits", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(Modal, "Modal", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_temp, "_temp", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+}();
+
+;
+
+/***/ }),
+/* 226 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _fadeInDown = __webpack_require__(221);
+
+var _fadeInDown2 = _interopRequireDefault(_fadeInDown);
+
+var _fadeInUp = __webpack_require__(224);
+
+var _fadeInUp2 = _interopRequireDefault(_fadeInUp);
+
+var _fadeInLeft = __webpack_require__(222);
+
+var _fadeInLeft2 = _interopRequireDefault(_fadeInLeft);
+
+var _fadeInRight = __webpack_require__(223);
+
+var _fadeInRight2 = _interopRequireDefault(_fadeInRight);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+exports.default = {
+    fadeInDown: _fadeInDown2.default,
+    fadeInUp: _fadeInUp2.default,
+    fadeInLeft: _fadeInLeft2.default,
+    fadeInRight: _fadeInRight2.default
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_fadeInDown2, '_fadeInDown2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInUp2, '_fadeInUp2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInLeft2, '_fadeInLeft2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInRight2, '_fadeInRight2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_fadeInDown2, '_fadeInDown2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInUp2, '_fadeInUp2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInLeft2, '_fadeInLeft2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInRight2, '_fadeInRight2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
 }();
 
 ;

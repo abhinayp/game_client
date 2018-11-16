@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import * as $ from 'jquery'
+import * as $ from 'jquery';
+import Modal from 'react-awesome-modal';
 
 class Game extends Component {
 
@@ -21,7 +22,8 @@ class Game extends Component {
       instructions: '',
       messages: [],
       messageNumber: 0,
-      hideAll: false
+      hideAll: false,
+      winModal: false
     }
   }
 
@@ -35,12 +37,19 @@ class Game extends Component {
     this.setState({hideAll: !hideAll});
   }
 
+  winModal(status) {
+    status = status || false
+    this.setState({winModal: status})
+  }
+
   setMessages() {
     let messages = [
-      {message: 'Welcome to battle field', interval: 50},
+      {message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 50},
+      {message: 'Welcome to battle field', interval: 8000},
       {message: 'You are here to find the traps set by your enimies', interval: 4000},
-      {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 10000},
-      {message: null, interval: 10000}
+      {message: null, interval: 6000},
+      {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 40000},
+      {message: null, interval: 4000}
     ]
     this.setState({messages: messages}, () => {
       this.botMessages()
@@ -229,9 +238,7 @@ class Game extends Component {
     let traps = this.state.traps;
     let deTraps = this.state.deTraps;
     if (Array.isArray(traps) && Array.isArray(deTraps) && traps.length != 0 && traps.length == deTraps.length) {
-        this.setState({win: true, showTraps: true}, () => {
-          alert("You Won!");
-        })
+        this.setState({win: true, showTraps: true, winModal: true})
     }
   }
 
@@ -249,6 +256,7 @@ class Game extends Component {
               {this.renderStats()}
             </div>
           )}
+          {this.renderWin()}
           {this.renderHideAll()}
         </div>
       </div>
@@ -381,6 +389,9 @@ class Game extends Component {
     return (
       <div style={styles}>
         <div className="btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in" onClick={() => this.showTraps(true)}>
+          <div>
+            <small className="text-secondary">Felicity:</small>
+          </div>
           {this.state.instructions}
         </div>
       </div>
@@ -406,6 +417,24 @@ class Game extends Component {
     )
 
   }
+
+  renderWin() {
+      return (
+        <Modal visible={this.state.winModal} effect="fadeInDown" onClickAway={() => this.winModal(false)}>
+          <div className="modal-dialog">
+            <div>
+              <h1 className="p-5 text-center text-primary">
+                You Won!
+              </h1>
+              <div className="text-center">
+                <button className="btn btn-primary" onClick={() => this.winModal(false)}>Close</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )
+  }
+
 }
 
 
