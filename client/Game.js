@@ -38,7 +38,9 @@ class Game extends Component {
   setMessages() {
     let messages = [
       {message: 'Welcome to battle field', interval: 50},
-      {message: 'You are here to find the traps set by your enimies', interval: 4000}
+      {message: 'You are here to find the traps set by your enimies', interval: 4000},
+      {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 10000},
+      {message: null, interval: 10000}
     ]
     this.setState({messages: messages}, () => {
       this.botMessages()
@@ -48,7 +50,12 @@ class Game extends Component {
   nextMessage() {
     let messageNumber = this.state.messageNumber || 0;
     messageNumber++;
-    this.setState({messageNumber: messageNumber});
+    this.setState({messageNumber: messageNumber}, () => {
+      if (this.state.messages.length > messageNumber) {
+        this.setMessages()
+      }
+    });
+
   }
 
   botMessages() {
@@ -306,7 +313,14 @@ class Game extends Component {
         <div className="bg-light m-4 rounded shadow">
           <div className="px-3 py-2">
             <div><span className="text-primary">{user['name']}</span><small className="bg-secondary text-light px-2 py-1 rounded ml-1">{user['role']}</small></div>
-            <div className="py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2"><small>{user['api_token']}</small></div>
+            <div className="py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2">
+              <small>
+                <div>
+                  <small>Password</small>
+                </div>
+                {user['api_token']}
+              </small>
+            </div>
           </div>
           <div className="btn-danger text-center px-2 py-1 rounded-bottom c-pointer" onClick={this.logout.bind(this)}>
             Logout
@@ -363,6 +377,7 @@ class Game extends Component {
     if (!instructions) {
       return '';
     }
+
     return (
       <div style={styles}>
         <div className="btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in" onClick={() => this.showTraps(true)}>

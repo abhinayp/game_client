@@ -13805,38 +13805,44 @@ var Game = function (_Component) {
   Game.prototype.setMessages = function setMessages() {
     var _this2 = this;
 
-    var messages = [{ message: 'Welcome to battle field', interval: 50 }, { message: 'You are here to find the traps set by your enimies', interval: 4000 }];
+    var messages = [{ message: 'Welcome to battle field', interval: 50 }, { message: 'You are here to find the traps set by your enimies', interval: 4000 }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 10000 }, { message: null, interval: 10000 }];
     this.setState({ messages: messages }, function () {
       _this2.botMessages();
     });
   };
 
   Game.prototype.nextMessage = function nextMessage() {
+    var _this3 = this;
+
     var messageNumber = this.state.messageNumber || 0;
     messageNumber++;
-    this.setState({ messageNumber: messageNumber });
+    this.setState({ messageNumber: messageNumber }, function () {
+      if (_this3.state.messages.length > messageNumber) {
+        _this3.setMessages();
+      }
+    });
   };
 
   Game.prototype.botMessages = function botMessages() {
-    var _this3 = this;
+    var _this4 = this;
 
     var messageNumber = this.state.messageNumber;
     var messages = this.state.messages;
     setTimeout(function () {
-      _this3.setState({ instructions: messages[messageNumber]['message'] }, function () {
-        _this3.nextMessage();
+      _this4.setState({ instructions: messages[messageNumber]['message'] }, function () {
+        _this4.nextMessage();
       });
     }, messages[messageNumber]['interval']);
   };
 
   Game.prototype.setUser = function setUser() {
-    var _this4 = this;
+    var _this5 = this;
 
     try {
       this.getUser(function () {
         // this.gettraps()
-        _this4.loadTraps();
-        _this4.getDetraps();
+        _this5.loadTraps();
+        _this5.getDetraps();
       });
     } catch (e) {
       console.log(e);
@@ -13874,7 +13880,7 @@ var Game = function (_Component) {
   };
 
   Game.prototype.getUser = function getUser(callback) {
-    var _this5 = this;
+    var _this6 = this;
 
     var user = JSON.parse(localStorage['user']);
     _axios2.default.get('http://localhost:5000/users/' + user['id']).then(function (res) {
@@ -13882,7 +13888,7 @@ var Game = function (_Component) {
       if (u) {
         localStorage['user'] = JSON.stringify(u);
         _axios2.default.defaults.headers.common['Authorization'] = u['api_token'];
-        _this5.setState({ user: u });
+        _this6.setState({ user: u });
       }
       if (callback) {
         callback();
@@ -13896,19 +13902,19 @@ var Game = function (_Component) {
   };
 
   Game.prototype.gettraps = function gettraps() {
-    var _this6 = this;
+    var _this7 = this;
 
     var user = JSON.parse(localStorage['user']);
     _axios2.default.get('http://localhost:5000/traps/' + user['role']).then(function (res) {
       var traps = res.data;
       if (traps) {
-        _this6.setState({ traps: traps });
+        _this7.setState({ traps: traps });
       }
     });
   };
 
   Game.prototype.loadTraps = function loadTraps() {
-    var _this7 = this;
+    var _this8 = this;
 
     var user = JSON.parse(localStorage['user']);
     var role = 'hero';
@@ -13919,21 +13925,21 @@ var Game = function (_Component) {
       var traps = res.data;
       if (traps) {
         if (Array.isArray(traps) && traps.length < 1) {
-          _this7.generateGame().bind(_this7);
+          _this8.generateGame().bind(_this8);
         }
-        _this7.setState({ traps: traps });
+        _this8.setState({ traps: traps });
       } else {
-        _this7.generateGame().bind(_this7);
+        _this8.generateGame().bind(_this8);
       }
     });
   };
 
   Game.prototype.createTrap = function createTrap(trap) {
-    var _this8 = this;
+    var _this9 = this;
 
     _axios2.default.post('http://localhost:5000/create_trap', trap).then(function (res) {
       var traps = res.data;
-      _this8.gettraps();
+      _this9.gettraps();
     });
   };
 
@@ -13950,22 +13956,22 @@ var Game = function (_Component) {
   };
 
   Game.prototype.getDetraps = function getDetraps() {
-    var _this9 = this;
+    var _this10 = this;
 
     var user = JSON.parse(localStorage['user']);
     _axios2.default.get('http://localhost:5000/detraps/' + user['role']).then(function (res) {
       var traps = res.data;
       if (traps) {
         var state = { deTraps: traps };
-        _this9.setState(state, function () {
-          _this9.checkWin();
+        _this10.setState(state, function () {
+          _this10.checkWin();
         });
       }
     });
   };
 
   Game.prototype.createDetrap = function createDetrap(trap) {
-    var _this10 = this;
+    var _this11 = this;
 
     var deTrap = this.state.deTraps || [];
     var findDetrap = deTrap.findIndex(function (d) {
@@ -13976,7 +13982,7 @@ var Game = function (_Component) {
     }
     _axios2.default.post('http://localhost:5000/create_detrap', trap).then(function (res) {
       var traps = res.data;
-      _this10.getDetraps();
+      _this11.getDetraps();
     });
   };
 
@@ -13989,11 +13995,11 @@ var Game = function (_Component) {
   };
 
   Game.prototype.generateGame = function generateGame() {
-    var _this11 = this;
+    var _this12 = this;
 
     _axios2.default.post('http://localhost:5000/generate_game', {}).then(function (res) {
       var traps = res.data;
-      _this11.loadTraps();
+      _this12.loadTraps();
     });
   };
 
@@ -14017,7 +14023,7 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderTableBody = function renderTableBody() {
-    var _this12 = this;
+    var _this13 = this;
 
     var gridSize = this.state.gridSize;
     var deTraps = this.state.deTraps;
@@ -14037,10 +14043,10 @@ var Game = function (_Component) {
         });
 
         var trap_class = '';
-        if (!_this12.state.showTraps) {
+        if (!_this13.state.showTraps) {
           trap_class = 'game-cell-hover c-pointer';
         }
-        if (_this12.state.showTraps && trap_index > -1) {
+        if (_this13.state.showTraps && trap_index > -1) {
           trap_class = trap_class + ' trap-cell';
         }
         if (detrap_index > -1) {
@@ -14048,7 +14054,7 @@ var Game = function (_Component) {
         }
 
         var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, onClick: function onClick(event) {
-            return _this12.onClickDetrap(event, j, i);
+            return _this13.onClickDetrap(event, j, i);
           } });
 
         cols_cell.push(c);
@@ -14070,11 +14076,11 @@ var Game = function (_Component) {
 
   Game.prototype.renderUserDetails = function renderUserDetails() {
     var user = this.state.user;
-    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
+    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
   };
 
   Game.prototype.renderFinish = function renderFinish() {
-    var _this13 = this;
+    var _this14 = this;
 
     var styles = {
       position: 'fixed',
@@ -14082,7 +14088,7 @@ var Game = function (_Component) {
       right: 0
     };
     return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer', onClick: function onClick() {
-        return _this13.showTraps(true);
+        return _this14.showTraps(true);
       } }, 'Finish'));
   };
 
@@ -14098,7 +14104,7 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderNotifications = function renderNotifications() {
-    var _this14 = this;
+    var _this15 = this;
 
     var styles = {
       position: 'fixed',
@@ -14110,8 +14116,9 @@ var Game = function (_Component) {
     if (!instructions) {
       return '';
     }
+
     return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in', onClick: function onClick() {
-        return _this14.showTraps(true);
+        return _this15.showTraps(true);
       } }, this.state.instructions));
   };
 
