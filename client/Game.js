@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import * as $ from 'jquery'
 
 class Game extends Component {
 
@@ -16,11 +17,48 @@ class Game extends Component {
       followDetrapCells: [],
       user: {},
       showtraps: false,
+      win: false,
+      instructions: '',
+      messages: [],
+      messageNumber: 0,
+      hideAll: false
     }
   }
 
   componentDidMount() {
     this.setUser()
+    this.setMessages()
+  }
+
+  hideAll() {
+    let hideAll = this.state.hideAll || false;
+    this.setState({hideAll: !hideAll});
+  }
+
+  setMessages() {
+    let messages = [
+      {message: 'Welcome to battle field', interval: 50},
+      {message: 'You are here to find the traps set by your enimies', interval: 4000}
+    ]
+    this.setState({messages: messages}, () => {
+      this.botMessages()
+    })
+  }
+
+  nextMessage() {
+    let messageNumber = this.state.messageNumber || 0;
+    messageNumber++;
+    this.setState({messageNumber: messageNumber});
+  }
+
+  botMessages() {
+    let messageNumber = this.state.messageNumber;
+    let messages = this.state.messages;
+    setTimeout(() => {
+      this.setState({instructions: messages[messageNumber]['message']}, () => {
+        this.nextMessage()
+      })
+    }, messages[messageNumber]['interval']);
   }
 
   setUser() {
@@ -48,7 +86,8 @@ class Game extends Component {
     // this.setState({traps: traps})
   }
 
-  onClickDetrap(x, y) {
+  onClickDetrap(event, x, y) {
+    event.target.classList.remove('trap-cell-fail')
     if (this.state.showTraps) {
       alert("Game finished")
       this.logout()
@@ -141,13 +180,18 @@ class Game extends Component {
       .then(res => {
         const traps = res.data;
         if (traps) {
-          this.setState({deTraps: traps});
+          let state = {deTraps: traps}
+          this.setState(state, () => {
+            this.checkWin();
+          });
         }
       })
   }
 
   createDetrap(trap) {
-    if (!this.trapExist(trap)) {
+    let deTrap = this.state.deTraps || [];
+    let findDetrap = deTrap.findIndex(d => d.x == trap.x && d.y == trap.y);
+    if (!this.trapExist(trap) || findDetrap > -1) {
       return;
     }
     axios.post(`http://localhost:5000/create_detrap`, trap)
@@ -174,13 +218,31 @@ class Game extends Component {
       })
   }
 
+  checkWin() {
+    let traps = this.state.traps;
+    let deTraps = this.state.deTraps;
+    if (Array.isArray(traps) && Array.isArray(deTraps) && traps.length != 0 && traps.length == deTraps.length) {
+        this.setState({win: true, showTraps: true}, () => {
+          alert("You Won!");
+        })
+    }
+  }
+
   render() {
+
     return (
       <div>
         <div>
           {this.renderTable()}
-          {this.renderUserDetails()}
-          {this.state.showTraps ? '' : this.renderFinish()}
+          {this.state.hideAll ? '' : (
+            <div>
+              {this.renderUserDetails()}
+              {this.state.showTraps ? '' : this.renderFinish()}
+              {this.renderNotifications()}
+              {this.renderStats()}
+            </div>
+          )}
+          {this.renderHideAll()}
         </div>
       </div>
     )
@@ -219,7 +281,7 @@ class Game extends Component {
         }
 
         let c = (
-          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} onClick={() => this.onClickDetrap(j, i) }></td>
+          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} onClick={(event) => this.onClickDetrap(event, j, i) }></td>
         )
 
         cols_cell.push(c);
@@ -262,11 +324,72 @@ class Game extends Component {
     }
     return (
       <div style={styles}>
-        <div className="btn-light rounded px-4 py-2 m-4 h2 shadow c-pointer" onClick={() => this.showTraps(true)}>
+        <div className="btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer" onClick={() => this.showTraps(true)}>
           Finish
         </div>
       </div>
     )
+  }
+
+  renderStats() {
+    let styles = {
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+    }
+    let traps = this.state.traps.length;
+    let detraps = this.state.deTraps.length;
+    return (
+      <div style={styles}>
+        <div className="btn-light rounded p-2 m-4 shadow c-pointer">
+          <small>
+            <span className="bg-dark text-light px-1 py-1 rounded">Total traps - {traps}</span>
+            <span className="bg-success text-light px-1 py-1 rounded ml-2">Traps Defused- {detraps}</span>
+            <span className="bg-danger text-light px-1 py-1 rounded ml-2">Traps Remaining- {traps - detraps}</span>
+          </small>
+        </div>
+      </div>
+    )
+  }
+
+  renderNotifications() {
+    let styles = {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      maxWidth: '300px'
+    }
+    let instructions = this.state.instructions
+    if (!instructions) {
+      return '';
+    }
+    return (
+      <div style={styles}>
+        <div className="btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in" onClick={() => this.showTraps(true)}>
+          {this.state.instructions}
+        </div>
+      </div>
+    )
+  }
+
+  renderHideAll() {
+    let text = 'Hide Everything'
+    if (this.state.hideAll) {
+      text = 'Show All'
+    }
+    let styles = {
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      right: 0
+    }
+
+    return (
+        <div className="text-center my-3" style={styles}>
+          <small><a className="text-light c-pointer" onClick={this.hideAll.bind(this)}>{text}</a></small>
+        </div>
+    )
+
   }
 }
 
