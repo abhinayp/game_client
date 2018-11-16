@@ -24,7 +24,8 @@ class Game extends Component {
       messageNumber: 0,
       hideAll: false,
       winModal: false,
-      bigNotification: true
+      bigNotification: true,
+      hint: {}
     }
   }
 
@@ -50,9 +51,9 @@ class Game extends Component {
 
   setMessages() {
     let messages = [
-      {message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 6000, fullscreen: true},
-      {message: 'Welcome to battle field', interval: 8000, fullscreen: true},
-      {message: 'You are here to find the traps set by your enimies', interval: 4000, fullscreen: true},
+      {message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true},
+      {message: 'You are here to save the soldiers', interval: 2000, fullscreen: true},
+      {message: "I'm gonna help you find the traps set by your enimies, follow my instructions and help the injured soldiers cross the battle field", interval: 10000, fullscreen: true},
       {message: null, interval: 40000, fullscreen: false},
       {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 5000, fullscreen: false},
       {message: null, interval: 4000, fullscreen: false},
@@ -75,19 +76,59 @@ class Game extends Component {
 
   }
 
-  botMessages() {
+  botMessages(m, b, noNext=false, interval_m) {
     let messageNumber = this.state.messageNumber;
     let messages = this.state.messages;
-    this.setState({instructions: messages[messageNumber]['message'], bigNotification: messages[messageNumber]['fullscreen']}, () => {
-      setTimeout(() => {
-        this.nextMessage()
-      }, messages[messageNumber]['interval']);
+    m = m || messages[messageNumber]['message']
+    b = b ||  messages[messageNumber]['fullscreen']
+    interval_m = interval_m || messages[messageNumber]['interval']
+    this.setState({instructions: m, bigNotification: b}, () => {
+      if (!noNext) {
+        setTimeout(() => {
+          this.nextMessage()
+        }, interval_m);
+      }
     })
 
   }
 
   findHints() {
+    let traps = this.state.traps;
+    let deTraps = this.state.deTraps;
+    let direction = {
+      nw: 0,
+      ne: 0,
+      sw: 0,
+      se: 0
+    }
+    let maxTraps = {direction: '', value: 0}
+    let untraps = traps.filter(t => deTraps.filter(dt => dt.x == t.x && dt.y == t.y).length <= 0)
 
+    untraps.map((ut) => {
+      if (ut.x > 7 && ut.y < 7) {
+        direction.ne++
+      }
+      else if (ut.x > 7) {
+        direction.se++
+      }
+      else if (ut.x < 7 && ut.y < 7) {
+        direction.nw++
+      }
+      else if (ut.x < 7) {
+        direction.sw++
+      }
+    })
+
+    for (let key in direction) {
+      let value = direction[key];
+      if (value > maxTraps['value']) {
+        maxTraps['direction'] = key
+        maxTraps['value'] = value
+      }
+    }
+    let m = `People in ${maxTraps['direction'].toUpperCase()} direction are stepping toward traps, there are ${maxTraps['value']} traps, save them`
+    this.botMessages(m, false, true)
+    // this.setState({instructions: ``, bigNotification: false})
   }
 
   setUser() {
@@ -122,6 +163,7 @@ class Game extends Component {
       this.logout()
       return;
     }
+    this.findHints()
     let followDetrapCells = this.state.followDetrapCells
     let trap = {x: x, y: y};
     if (this.trapExist(trap)) {
@@ -402,7 +444,7 @@ class Game extends Component {
 
     return (
       <div style={styles}>
-        <div className="bg-light rounded px-4 py-2 m-4 shadow c-pointer fade-in">
+        <div className="bg-light rounded px-4 py-2 m-4 shadow c-pointer fade-in" onClick={this.findHints.bind(this)}>
           <div>
             <small className="text-secondary">Felicity:</small>
           </div>
@@ -457,7 +499,7 @@ class Game extends Component {
       }
 
       return (
-        <Modal visible={this.state.bigNotification} effect="fadeInDown" onClickAway={() => this.bigNotification(true)}>
+        <Modal visible={this.state.bigNotification} effect="fadeInDown" onClickAway={() => this.bigNotification(false)}>
           <div className="modal-dialog">
             <div>
               <div className="px-4">

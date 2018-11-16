@@ -13793,7 +13793,8 @@ var Game = function (_Component) {
       messageNumber: 0,
       hideAll: false,
       winModal: false,
-      bigNotification: true
+      bigNotification: true,
+      hint: {}
     };
     return _this;
   }
@@ -13821,7 +13822,7 @@ var Game = function (_Component) {
   Game.prototype.setMessages = function setMessages() {
     var _this2 = this;
 
-    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 6000, fullscreen: true }, { message: 'Welcome to battle field', interval: 8000, fullscreen: true }, { message: 'You are here to find the traps set by your enimies', interval: 4000, fullscreen: true }, { message: null, interval: 40000, fullscreen: false }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }, { message: 'There are ' + (this.state.traps.length - this.state.deTraps.length) + ' traps remaining', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }];
+    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true }, { message: 'You are here to save the soldiers', interval: 2000, fullscreen: true }, { message: "I'm gonna help you find the traps set by your enimies, follow my instructions and help the injured soldiers cross the battle field", interval: 10000, fullscreen: true }, { message: null, interval: 40000, fullscreen: false }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }, { message: 'There are ' + (this.state.traps.length - this.state.deTraps.length) + ' traps remaining', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }];
     this.setState({ messages: messages }, function () {
       _this2.botMessages();
     });
@@ -13839,19 +13840,65 @@ var Game = function (_Component) {
     });
   };
 
-  Game.prototype.botMessages = function botMessages() {
+  Game.prototype.botMessages = function botMessages(m, b) {
     var _this4 = this;
+
+    var noNext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    var interval_m = arguments[3];
 
     var messageNumber = this.state.messageNumber;
     var messages = this.state.messages;
-    this.setState({ instructions: messages[messageNumber]['message'], bigNotification: messages[messageNumber]['fullscreen'] }, function () {
-      setTimeout(function () {
-        _this4.nextMessage();
-      }, messages[messageNumber]['interval']);
+    m = m || messages[messageNumber]['message'];
+    b = b || messages[messageNumber]['fullscreen'];
+    interval_m = interval_m || messages[messageNumber]['interval'];
+    this.setState({ instructions: m, bigNotification: b }, function () {
+      if (!noNext) {
+        setTimeout(function () {
+          _this4.nextMessage();
+        }, interval_m);
+      }
     });
   };
 
-  Game.prototype.findHints = function findHints() {};
+  Game.prototype.findHints = function findHints() {
+    var traps = this.state.traps;
+    var deTraps = this.state.deTraps;
+    var direction = {
+      nw: 0,
+      ne: 0,
+      sw: 0,
+      se: 0
+    };
+    var maxTraps = { direction: '', value: 0 };
+    var untraps = traps.filter(function (t) {
+      return deTraps.filter(function (dt) {
+        return dt.x == t.x && dt.y == t.y;
+      }).length <= 0;
+    });
+
+    untraps.map(function (ut) {
+      if (ut.x > 7 && ut.y < 7) {
+        direction.ne++;
+      } else if (ut.x > 7) {
+        direction.se++;
+      } else if (ut.x < 7 && ut.y < 7) {
+        direction.nw++;
+      } else if (ut.x < 7) {
+        direction.sw++;
+      }
+    });
+
+    for (var key in direction) {
+      var value = direction[key];
+      if (value > maxTraps['value']) {
+        maxTraps['direction'] = key;
+        maxTraps['value'] = value;
+      }
+    }
+    var m = 'People in ' + maxTraps['direction'].toUpperCase() + ' direction are stepping toward traps, there are ' + maxTraps['value'] + ' traps, save them';
+    this.botMessages(m, false, true);
+    // this.setState({instructions: ``, bigNotification: false})
+  };
 
   Game.prototype.setUser = function setUser() {
     var _this5 = this;
@@ -13888,6 +13935,7 @@ var Game = function (_Component) {
       this.logout();
       return;
     }
+    this.findHints();
     var followDetrapCells = this.state.followDetrapCells;
     var trap = { x: x, y: y };
     if (this.trapExist(trap)) {
@@ -14131,7 +14179,7 @@ var Game = function (_Component) {
       return '';
     }
 
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'bg-light rounded px-4 py-2 m-4 shadow c-pointer fade-in' }, _react2.default.createElement('div', null, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:')), this.state.instructions));
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'bg-light rounded px-4 py-2 m-4 shadow c-pointer fade-in', onClick: this.findHints.bind(this) }, _react2.default.createElement('div', null, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:')), this.state.instructions));
   };
 
   Game.prototype.renderHideAll = function renderHideAll() {
@@ -14169,7 +14217,7 @@ var Game = function (_Component) {
     }
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.bigNotification, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this16.bigNotification(true);
+        return _this16.bigNotification(false);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-4' }, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:'), _react2.default.createElement('div', null, this.state.instructions)))));
   };
 
