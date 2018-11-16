@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 220);
+/******/ 	return __webpack_require__(__webpack_require__.s = 226);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1971,7 +1971,7 @@ var _temp2 = function () {
 var debugTool = null;
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(160);
+  var ReactDebugTool = __webpack_require__(166);
   debugTool = ReactDebugTool;
 }
 
@@ -3911,7 +3911,7 @@ var _temp2 = function () {
 
 
 
-var ReactRef = __webpack_require__(174);
+var ReactRef = __webpack_require__(180);
 var ReactInstrumentation = __webpack_require__(9);
 
 var warning = __webpack_require__(2);
@@ -4115,16 +4115,16 @@ var _temp2 = function () {
 
 var _assign = __webpack_require__(4);
 
-var ReactChildren = __webpack_require__(207);
+var ReactChildren = __webpack_require__(213);
 var ReactComponent = __webpack_require__(52);
-var ReactPureComponent = __webpack_require__(212);
-var ReactClass = __webpack_require__(208);
-var ReactDOMFactories = __webpack_require__(209);
+var ReactPureComponent = __webpack_require__(218);
+var ReactClass = __webpack_require__(214);
+var ReactDOMFactories = __webpack_require__(215);
 var ReactElement = __webpack_require__(16);
-var ReactPropTypes = __webpack_require__(210);
-var ReactVersion = __webpack_require__(213);
+var ReactPropTypes = __webpack_require__(216);
+var ReactVersion = __webpack_require__(219);
 
-var onlyChild = __webpack_require__(216);
+var onlyChild = __webpack_require__(222);
 var warning = __webpack_require__(2);
 
 var createElement = ReactElement.createElement;
@@ -4259,6 +4259,35 @@ var _temp2 = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = __webpack_require__(20);
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+}();
+
+;
+;
+
+var _temp2 = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react/react.js');
+}();
+
+;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -4303,7 +4332,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4653,7 +4682,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4669,7 +4698,7 @@ var _temp2 = function () {
 
 
 
-var EventPluginHub = __webpack_require__(22);
+var EventPluginHub = __webpack_require__(23);
 var EventPluginUtils = __webpack_require__(39);
 
 var accumulateInto = __webpack_require__(76);
@@ -4861,7 +4890,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4938,7 +4967,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5025,35 +5054,6 @@ var _temp2 = function () {
   __REACT_HOT_LOADER__.register(SyntheticUIEvent, 'SyntheticUIEvent', '/Users/abhinay/GitHub/game/game_client/node_modules/react-dom/lib/SyntheticUIEvent.js');
 
   __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-dom/lib/SyntheticUIEvent.js');
-}();
-
-;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(20);
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react/react.js');
 }();
 
 ;
@@ -5383,10 +5383,10 @@ var _temp2 = function () {
 var _assign = __webpack_require__(4);
 
 var EventPluginRegistry = __webpack_require__(27);
-var ReactEventEmitterMixin = __webpack_require__(164);
+var ReactEventEmitterMixin = __webpack_require__(170);
 var ViewportMetrics = __webpack_require__(75);
 
-var getVendorPrefixedEventName = __webpack_require__(199);
+var getVendorPrefixedEventName = __webpack_require__(205);
 var isEventSupported = __webpack_require__(49);
 
 /**
@@ -5765,7 +5765,7 @@ var _temp2 = function () {
 
 
 
-var SyntheticUIEvent = __webpack_require__(25);
+var SyntheticUIEvent = __webpack_require__(26);
 var ViewportMetrics = __webpack_require__(75);
 
 var getEventModifierState = __webpack_require__(47);
@@ -6760,7 +6760,7 @@ var _temp2 = function () {
 
 
 var DOMLazyTree = __webpack_require__(18);
-var Danger = __webpack_require__(137);
+var Danger = __webpack_require__(143);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactInstrumentation = __webpack_require__(9);
 
@@ -7506,7 +7506,7 @@ var _temp2 = function () {
 var _prodInvariant = __webpack_require__(3);
 
 var ReactPropTypesSecret = __webpack_require__(74);
-var propTypesFactory = __webpack_require__(203);
+var propTypesFactory = __webpack_require__(209);
 
 var React = __webpack_require__(20);
 var PropTypes = propTypesFactory(React.isValidElement);
@@ -7912,7 +7912,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(12);
-var ReactInstanceMap = __webpack_require__(24);
+var ReactInstanceMap = __webpack_require__(25);
 var ReactInstrumentation = __webpack_require__(9);
 var ReactUpdates = __webpack_require__(11);
 
@@ -9107,7 +9107,7 @@ var _prodInvariant = __webpack_require__(17);
 var ReactNoopUpdateQueue = __webpack_require__(53);
 
 var canDefineProperty = __webpack_require__(33);
-var emptyObject = __webpack_require__(21);
+var emptyObject = __webpack_require__(22);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -10378,7 +10378,7 @@ var DOMProperty = __webpack_require__(14);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactInstrumentation = __webpack_require__(9);
 
-var quoteAttributeValueForBrowser = __webpack_require__(200);
+var quoteAttributeValueForBrowser = __webpack_require__(206);
 var warning = __webpack_require__(2);
 
 var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + DOMProperty.ATTRIBUTE_NAME_START_CHAR + '][' + DOMProperty.ATTRIBUTE_NAME_CHAR + ']*$');
@@ -11210,7 +11210,7 @@ var _temp2 = function () {
 
 
 
-var ReactDOMSelection = __webpack_require__(155);
+var ReactDOMSelection = __webpack_require__(161);
 
 var containsNode = __webpack_require__(113);
 var focusNode = __webpack_require__(60);
@@ -11375,17 +11375,17 @@ var React = __webpack_require__(20);
 var ReactBrowserEventEmitter = __webpack_require__(28);
 var ReactCurrentOwner = __webpack_require__(12);
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactDOMContainerInfo = __webpack_require__(147);
-var ReactDOMFeatureFlags = __webpack_require__(149);
+var ReactDOMContainerInfo = __webpack_require__(153);
+var ReactDOMFeatureFlags = __webpack_require__(155);
 var ReactFeatureFlags = __webpack_require__(69);
-var ReactInstanceMap = __webpack_require__(24);
+var ReactInstanceMap = __webpack_require__(25);
 var ReactInstrumentation = __webpack_require__(9);
-var ReactMarkupChecksum = __webpack_require__(169);
+var ReactMarkupChecksum = __webpack_require__(175);
 var ReactReconciler = __webpack_require__(19);
 var ReactUpdateQueue = __webpack_require__(44);
 var ReactUpdates = __webpack_require__(11);
 
-var emptyObject = __webpack_require__(21);
+var emptyObject = __webpack_require__(22);
 var instantiateReactComponent = __webpack_require__(80);
 var invariant = __webpack_require__(1);
 var setInnerHTML = __webpack_require__(32);
@@ -12471,11 +12471,11 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
-var ReactCompositeComponent = __webpack_require__(144);
+var ReactCompositeComponent = __webpack_require__(150);
 var ReactEmptyComponent = __webpack_require__(68);
 var ReactHostComponent = __webpack_require__(70);
 
-var getNextDebugID = __webpack_require__(215);
+var getNextDebugID = __webpack_require__(221);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -12817,9 +12817,9 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(12);
-var REACT_ELEMENT_TYPE = __webpack_require__(163);
+var REACT_ELEMENT_TYPE = __webpack_require__(169);
 
-var getIteratorFn = __webpack_require__(197);
+var getIteratorFn = __webpack_require__(203);
 var invariant = __webpack_require__(1);
 var KeyEscapeUtils = __webpack_require__(40);
 var warning = __webpack_require__(2);
@@ -13154,7 +13154,7 @@ var ReactCurrentOwner = __webpack_require__(12);
 var ReactComponentTreeHook = __webpack_require__(7);
 var ReactElement = __webpack_require__(16);
 
-var checkReactTypeSpec = __webpack_require__(214);
+var checkReactTypeSpec = __webpack_require__(220);
 
 var canDefineProperty = __webpack_require__(33);
 var getIteratorFn = __webpack_require__(88);
@@ -13585,7 +13585,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(26);
+var _react = __webpack_require__(21);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -13719,7 +13719,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(26);
+var _react = __webpack_require__(21);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -13731,7 +13731,7 @@ var _jquery = __webpack_require__(127);
 
 var $ = _interopRequireWildcard(_jquery);
 
-var _reactAwesomeModal = __webpack_require__(225);
+var _reactAwesomeModal = __webpack_require__(136);
 
 var _reactAwesomeModal2 = _interopRequireDefault(_reactAwesomeModal);
 
@@ -14084,7 +14084,7 @@ var Game = function (_Component) {
 
   Game.prototype.renderUserDetails = function renderUserDetails() {
     var user = this.state.user;
-    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
+    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow-lg' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
   };
 
   Game.prototype.renderFinish = function renderFinish() {
@@ -14095,7 +14095,7 @@ var Game = function (_Component) {
       bottom: 0,
       right: 0
     };
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer', onClick: function onClick() {
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer font-weight-light', onClick: function onClick() {
         return _this14.showTraps(true);
       } }, 'Finish'));
   };
@@ -14108,7 +14108,7 @@ var Game = function (_Component) {
     };
     var traps = this.state.traps.length;
     var detraps = this.state.deTraps.length;
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded p-2 m-4 shadow c-pointer' }, _react2.default.createElement('small', null, _react2.default.createElement('span', { className: 'bg-dark text-light px-1 py-1 rounded' }, 'Total traps - ', traps), _react2.default.createElement('span', { className: 'bg-success text-light px-1 py-1 rounded ml-2' }, 'Traps Defused- ', detraps), _react2.default.createElement('span', { className: 'bg-danger text-light px-1 py-1 rounded ml-2' }, 'Traps Remaining- ', traps - detraps))));
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded p-2 m-4 shadow c-pointer' }, _react2.default.createElement('small', null, _react2.default.createElement('span', { className: 'bg-primary text-light px-1 py-1 rounded' }, 'Total traps - ', traps), _react2.default.createElement('span', { className: 'bg-success text-light px-1 py-1 rounded ml-2' }, 'Traps Defused- ', detraps), _react2.default.createElement('span', { className: 'bg-danger text-light px-1 py-1 rounded ml-2' }, 'Traps Remaining- ', traps - detraps))));
   };
 
   Game.prototype.renderNotifications = function renderNotifications() {
@@ -14142,7 +14142,7 @@ var Game = function (_Component) {
       right: 0
     };
 
-    return _react2.default.createElement('div', { className: 'text-center my-3', style: styles }, _react2.default.createElement('small', null, _react2.default.createElement('a', { className: 'text-light c-pointer', onClick: this.hideAll.bind(this) }, text)));
+    return _react2.default.createElement('div', { className: 'text-center my-3', style: styles }, _react2.default.createElement('small', null, _react2.default.createElement('a', { className: 'text-dark c-pointer', onClick: this.hideAll.bind(this) }, text)));
   };
 
   Game.prototype.renderWin = function renderWin() {
@@ -14220,7 +14220,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(26);
+var _react = __webpack_require__(21);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -14401,7 +14401,7 @@ var _temp2 = function () {
 "use strict";
 
 
-module.exports = __webpack_require__(145);
+module.exports = __webpack_require__(151);
 ;
 
 var _temp = function () {
@@ -27035,7 +27035,7 @@ var _temp2 = function () {
 }();
 
 ;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(219)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(225)(module)))
 
 /***/ }),
 /* 128 */
@@ -28999,7 +28999,7 @@ var _temp2 = function () {
 }();
 
 ;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(218)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(224)))
 
 /***/ }),
 /* 129 */
@@ -29760,6 +29760,628 @@ var _temp2 = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(0, -100px, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInDown.js');
+}();
+
+;
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(-100px, 0, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInLeft.js');
+}();
+
+;
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(100px, 0, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInRight.js');
+}();
+
+;
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    'mask': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
+        'zIndex': 10001
+    },
+    'maskHidden': {
+        'display': 'none'
+    },
+    'container': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': 10000
+    },
+    'containerHidden': {
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'zIndex': -1
+    },
+    'panel': {
+        'backgroundColor': '#fff',
+        'borderRadius': '5px',
+        'boxSizing': 'border-box',
+        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'transform': 'translate3d(0, 0, 0)',
+        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
+        'zIndex': 10002
+    },
+    'panelHidden': {
+        'transform': 'translate3d(0, 100px, 0)',
+        'opacity': 0,
+        'zIndex': -1,
+        'height': 0,
+        'width': 0,
+        'overflow': 'hidden'
+    }
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInUp.js');
+}();
+
+;
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _react = __webpack_require__(21);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _style = __webpack_require__(137);
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var Modal = function (_Component) {
+    _inherits(Modal, _Component);
+
+    function Modal(props) {
+        _classCallCheck(this, Modal);
+
+        var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
+
+        var effect = props.effect || 'fadeInDown';
+        _this.setSize(effect);
+        _this.state = {
+            visible: props.visible,
+            style: _style2.default[effect]
+        };
+        return _this;
+    }
+
+    _createClass(Modal, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(_ref) {
+            var visible = _ref.visible,
+                _ref$effect = _ref.effect,
+                effect = _ref$effect === undefined ? 'fadeInDown' : _ref$effect;
+
+            this.setState({
+                visible: visible
+            });
+            this.setSize(effect);
+            this.setStyles(effect);
+        }
+    }, {
+        key: 'setStyles',
+        value: function setStyles(effect) {
+            if (this.props && this.props.styles) {
+                _style2.default[effect].panel = _extends({}, _style2.default[effect].panel, this.props.styles);
+            }
+        }
+    }, {
+        key: 'setSize',
+        value: function setSize(effect) {
+            if (this.props && this.props.width) {
+                if (this.props.width.charAt(this.props.width.length - 1) === '%') {
+                    // Use Percentage
+                    var width = this.props.width.slice(0, -1);
+                    _style2.default[effect].panel.width = width + '%';
+                } else if (this.props.width.charAt(this.props.width.length - 1) === 'x') {
+                    // Use Pixels
+                    var _width = this.props.width.slice(0, -2);
+                    _style2.default[effect].panel.width = _width + 'px';
+                } else {
+                    // Defaults
+                    _style2.default[effect].panel.width = this.props.width + 'px';
+                }
+            }
+            if (this.props && this.props.height) {
+                if (this.props.height.charAt(this.props.height.length - 1) === '%') {
+                    // Use Percentage
+                    var height = this.props.height.slice(0, -1);
+                    _style2.default[effect].panel.height = height + 'vh';
+                } else if (this.props.height.charAt(this.props.height.length - 1) === 'x') {
+                    // Use Pixels
+                    var _height = this.props.height.slice(0, -2);
+                    _style2.default[effect].panel.height = _height + 'px';
+                } else {
+                    // Defaults
+                    _style2.default[effect].panel.height = this.props.height + 'px';
+                }
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement('div', null, _react2.default.createElement('div', { style: this.state.visible ? this.state.style.container : this.state.style.containerHidden }, _react2.default.createElement('div', { style: this.state.visible ? _extends({}, this.state.style.panel) : this.state.style.panelHidden }, this.props.children), _react2.default.createElement('div', { style: this.state.visible ? this.state.style.mask : this.state.style.maskHidden, onClick: this.props.onClickAway ? this.props.onClickAway : null })));
+        }
+    }]);
+
+    return Modal;
+}(_react.Component);
+
+exports.default = Modal;
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_extends, "_extends", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_createClass, "_createClass", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_react2, "_react2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_style2, "_style2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, "_interopRequireDefault", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_classCallCheck, "_classCallCheck", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_possibleConstructorReturn, "_possibleConstructorReturn", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_inherits, "_inherits", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(Modal, "Modal", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_typeof, "_typeof", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_extends, "_extends", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_createClass, "_createClass", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_react2, "_react2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_style2, "_style2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, "_interopRequireDefault", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_classCallCheck, "_classCallCheck", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_possibleConstructorReturn, "_possibleConstructorReturn", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_inherits, "_inherits", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(Modal, "Modal", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+
+    __REACT_HOT_LOADER__.register(_temp, "_temp", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
+}();
+
+;
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _fadeInDown = __webpack_require__(132);
+
+var _fadeInDown2 = _interopRequireDefault(_fadeInDown);
+
+var _fadeInUp = __webpack_require__(135);
+
+var _fadeInUp2 = _interopRequireDefault(_fadeInUp);
+
+var _fadeInLeft = __webpack_require__(133);
+
+var _fadeInLeft2 = _interopRequireDefault(_fadeInLeft);
+
+var _fadeInRight = __webpack_require__(134);
+
+var _fadeInRight2 = _interopRequireDefault(_fadeInRight);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+exports.default = {
+    fadeInDown: _fadeInDown2.default,
+    fadeInUp: _fadeInUp2.default,
+    fadeInLeft: _fadeInLeft2.default,
+    fadeInRight: _fadeInRight2.default
+};
+;
+
+var _temp = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_fadeInDown2, '_fadeInDown2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInUp2, '_fadeInUp2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInLeft2, '_fadeInLeft2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInRight2, '_fadeInRight2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+}();
+
+;
+;
+
+var _temp2 = function () {
+    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+        return;
+    }
+
+    __REACT_HOT_LOADER__.register(_fadeInDown2, '_fadeInDown2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInUp2, '_fadeInUp2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInLeft2, '_fadeInLeft2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_fadeInRight2, '_fadeInRight2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+
+    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
+}();
+
+;
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -29859,7 +30481,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 133 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29912,7 +30534,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 134 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29936,11 +30558,11 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 };
 
-var EventPropagators = __webpack_require__(23);
+var EventPropagators = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(6);
-var FallbackCompositionState = __webpack_require__(140);
-var SyntheticCompositionEvent = __webpack_require__(183);
-var SyntheticInputEvent = __webpack_require__(186);
+var FallbackCompositionState = __webpack_require__(146);
+var SyntheticCompositionEvent = __webpack_require__(189);
+var SyntheticInputEvent = __webpack_require__(192);
 
 var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 var START_KEYCODE = 229;
@@ -30420,7 +31042,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 135 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30441,7 +31063,7 @@ var ExecutionEnvironment = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(9);
 
 var camelizeStyleName = __webpack_require__(112);
-var dangerousStyleValue = __webpack_require__(193);
+var dangerousStyleValue = __webpack_require__(199);
 var hyphenateStyleName = __webpack_require__(119);
 var memoizeStringOnly = __webpack_require__(122);
 var warning = __webpack_require__(2);
@@ -30719,7 +31341,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 136 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30735,8 +31357,8 @@ var _temp2 = function () {
 
 
 
-var EventPluginHub = __webpack_require__(22);
-var EventPropagators = __webpack_require__(23);
+var EventPluginHub = __webpack_require__(23);
+var EventPropagators = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(6);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactUpdates = __webpack_require__(11);
@@ -31190,7 +31812,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 137 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31268,7 +31890,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 138 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31323,7 +31945,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 139 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31339,7 +31961,7 @@ var _temp2 = function () {
 
 
 
-var EventPropagators = __webpack_require__(23);
+var EventPropagators = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(5);
 var SyntheticMouseEvent = __webpack_require__(29);
 
@@ -31456,7 +32078,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 140 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31580,7 +32202,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 141 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31865,7 +32487,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 142 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32057,7 +32679,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 143 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32074,7 +32696,7 @@ var _temp2 = function () {
 
 
 var DOMChildrenOperations = __webpack_require__(37);
-var ReactDOMIDOperations = __webpack_require__(150);
+var ReactDOMIDOperations = __webpack_require__(156);
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -32116,7 +32738,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 144 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32147,16 +32769,16 @@ var React = __webpack_require__(20);
 var ReactComponentEnvironment = __webpack_require__(42);
 var ReactCurrentOwner = __webpack_require__(12);
 var ReactErrorUtils = __webpack_require__(43);
-var ReactInstanceMap = __webpack_require__(24);
+var ReactInstanceMap = __webpack_require__(25);
 var ReactInstrumentation = __webpack_require__(9);
 var ReactNodeTypes = __webpack_require__(73);
 var ReactReconciler = __webpack_require__(19);
 
 if (process.env.NODE_ENV !== 'production') {
-  var checkReactTypeSpec = __webpack_require__(192);
+  var checkReactTypeSpec = __webpack_require__(198);
 }
 
-var emptyObject = __webpack_require__(21);
+var emptyObject = __webpack_require__(22);
 var invariant = __webpack_require__(1);
 var shallowEqual = __webpack_require__(36);
 var shouldUpdateReactComponent = __webpack_require__(50);
@@ -33086,7 +33708,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 145 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33105,15 +33727,15 @@ var _temp2 = function () {
 
 
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactDefaultInjection = __webpack_require__(162);
+var ReactDefaultInjection = __webpack_require__(168);
 var ReactMount = __webpack_require__(72);
 var ReactReconciler = __webpack_require__(19);
 var ReactUpdates = __webpack_require__(11);
-var ReactVersion = __webpack_require__(177);
+var ReactVersion = __webpack_require__(183);
 
-var findDOMNode = __webpack_require__(194);
+var findDOMNode = __webpack_require__(200);
 var getHostComponentFromComposite = __webpack_require__(78);
-var renderSubtreeIntoContainer = __webpack_require__(201);
+var renderSubtreeIntoContainer = __webpack_require__(207);
 var warning = __webpack_require__(2);
 
 ReactDefaultInjection.inject();
@@ -33190,9 +33812,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 if (process.env.NODE_ENV !== 'production') {
   var ReactInstrumentation = __webpack_require__(9);
-  var ReactDOMUnknownPropertyHook = __webpack_require__(159);
-  var ReactDOMNullInputValuePropHook = __webpack_require__(153);
-  var ReactDOMInvalidARIAHook = __webpack_require__(152);
+  var ReactDOMUnknownPropertyHook = __webpack_require__(165);
+  var ReactDOMNullInputValuePropHook = __webpack_require__(159);
+  var ReactDOMInvalidARIAHook = __webpack_require__(158);
 
   ReactInstrumentation.debugTool.addHook(ReactDOMUnknownPropertyHook);
   ReactInstrumentation.debugTool.addHook(ReactDOMNullInputValuePropHook);
@@ -33247,7 +33869,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 146 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33276,24 +33898,24 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
-var AutoFocusUtils = __webpack_require__(133);
-var CSSPropertyOperations = __webpack_require__(135);
+var AutoFocusUtils = __webpack_require__(139);
+var CSSPropertyOperations = __webpack_require__(141);
 var DOMLazyTree = __webpack_require__(18);
 var DOMNamespaces = __webpack_require__(38);
 var DOMProperty = __webpack_require__(14);
 var DOMPropertyOperations = __webpack_require__(65);
-var EventPluginHub = __webpack_require__(22);
+var EventPluginHub = __webpack_require__(23);
 var EventPluginRegistry = __webpack_require__(27);
 var ReactBrowserEventEmitter = __webpack_require__(28);
 var ReactDOMComponentFlags = __webpack_require__(66);
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactDOMInput = __webpack_require__(151);
-var ReactDOMOption = __webpack_require__(154);
+var ReactDOMInput = __webpack_require__(157);
+var ReactDOMOption = __webpack_require__(160);
 var ReactDOMSelect = __webpack_require__(67);
-var ReactDOMTextarea = __webpack_require__(157);
+var ReactDOMTextarea = __webpack_require__(163);
 var ReactInstrumentation = __webpack_require__(9);
-var ReactMultiChild = __webpack_require__(170);
-var ReactServerRenderingTransaction = __webpack_require__(175);
+var ReactMultiChild = __webpack_require__(176);
+var ReactServerRenderingTransaction = __webpack_require__(181);
 
 var emptyFunction = __webpack_require__(10);
 var escapeTextContentForBrowser = __webpack_require__(31);
@@ -34420,7 +35042,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 147 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34487,7 +35109,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 148 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34576,7 +35198,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 149 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34624,7 +35246,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 150 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34687,7 +35309,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 151 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35038,7 +35660,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 152 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35181,7 +35803,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 153 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35262,7 +35884,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 154 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35423,7 +36045,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 155 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35441,7 +36063,7 @@ var _temp2 = function () {
 
 var ExecutionEnvironment = __webpack_require__(6);
 
-var getNodeForCharacterOffset = __webpack_require__(198);
+var getNodeForCharacterOffset = __webpack_require__(204);
 var getTextContentAccessor = __webpack_require__(79);
 
 /**
@@ -35688,7 +36310,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 156 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35882,7 +36504,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 157 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36088,7 +36710,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 158 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36270,7 +36892,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 159 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36432,7 +37054,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 160 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36457,8 +37079,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 };
 
-var ReactInvalidSetStateWarningHook = __webpack_require__(168);
-var ReactHostOperationHistoryHook = __webpack_require__(166);
+var ReactInvalidSetStateWarningHook = __webpack_require__(174);
+var ReactHostOperationHistoryHook = __webpack_require__(172);
 var ReactComponentTreeHook = __webpack_require__(7);
 var ExecutionEnvironment = __webpack_require__(6);
 
@@ -36947,7 +37569,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 161 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37064,7 +37686,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 162 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37080,25 +37702,25 @@ var _temp2 = function () {
 
 
 
-var ARIADOMPropertyConfig = __webpack_require__(132);
-var BeforeInputEventPlugin = __webpack_require__(134);
-var ChangeEventPlugin = __webpack_require__(136);
-var DefaultEventPluginOrder = __webpack_require__(138);
-var EnterLeaveEventPlugin = __webpack_require__(139);
-var HTMLDOMPropertyConfig = __webpack_require__(141);
-var ReactComponentBrowserEnvironment = __webpack_require__(143);
-var ReactDOMComponent = __webpack_require__(146);
+var ARIADOMPropertyConfig = __webpack_require__(138);
+var BeforeInputEventPlugin = __webpack_require__(140);
+var ChangeEventPlugin = __webpack_require__(142);
+var DefaultEventPluginOrder = __webpack_require__(144);
+var EnterLeaveEventPlugin = __webpack_require__(145);
+var HTMLDOMPropertyConfig = __webpack_require__(147);
+var ReactComponentBrowserEnvironment = __webpack_require__(149);
+var ReactDOMComponent = __webpack_require__(152);
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactDOMEmptyComponent = __webpack_require__(148);
-var ReactDOMTreeTraversal = __webpack_require__(158);
-var ReactDOMTextComponent = __webpack_require__(156);
-var ReactDefaultBatchingStrategy = __webpack_require__(161);
-var ReactEventListener = __webpack_require__(165);
-var ReactInjection = __webpack_require__(167);
-var ReactReconcileTransaction = __webpack_require__(173);
-var SVGDOMPropertyConfig = __webpack_require__(178);
-var SelectEventPlugin = __webpack_require__(179);
-var SimpleEventPlugin = __webpack_require__(180);
+var ReactDOMEmptyComponent = __webpack_require__(154);
+var ReactDOMTreeTraversal = __webpack_require__(164);
+var ReactDOMTextComponent = __webpack_require__(162);
+var ReactDefaultBatchingStrategy = __webpack_require__(167);
+var ReactEventListener = __webpack_require__(171);
+var ReactInjection = __webpack_require__(173);
+var ReactReconcileTransaction = __webpack_require__(179);
+var SVGDOMPropertyConfig = __webpack_require__(184);
+var SelectEventPlugin = __webpack_require__(185);
+var SimpleEventPlugin = __webpack_require__(186);
 
 var alreadyInjected = false;
 
@@ -37183,7 +37805,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 163 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37232,7 +37854,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 164 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37248,7 +37870,7 @@ var _temp2 = function () {
 
 
 
-var EventPluginHub = __webpack_require__(22);
+var EventPluginHub = __webpack_require__(23);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -37298,7 +37920,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 165 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37498,7 +38120,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 166 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37565,7 +38187,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 167 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37582,7 +38204,7 @@ var _temp2 = function () {
 
 
 var DOMProperty = __webpack_require__(14);
-var EventPluginHub = __webpack_require__(22);
+var EventPluginHub = __webpack_require__(23);
 var EventPluginUtils = __webpack_require__(39);
 var ReactComponentEnvironment = __webpack_require__(42);
 var ReactEmptyComponent = __webpack_require__(68);
@@ -37628,7 +38250,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 168 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37703,7 +38325,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 169 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37719,7 +38341,7 @@ var _temp2 = function () {
 
 
 
-var adler32 = __webpack_require__(191);
+var adler32 = __webpack_require__(197);
 
 var TAG_END = /\/?>/;
 var COMMENT_START = /^<\!\-\-/;
@@ -37790,7 +38412,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 170 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37809,15 +38431,15 @@ var _temp2 = function () {
 var _prodInvariant = __webpack_require__(3);
 
 var ReactComponentEnvironment = __webpack_require__(42);
-var ReactInstanceMap = __webpack_require__(24);
+var ReactInstanceMap = __webpack_require__(25);
 var ReactInstrumentation = __webpack_require__(9);
 
 var ReactCurrentOwner = __webpack_require__(12);
 var ReactReconciler = __webpack_require__(19);
-var ReactChildReconciler = __webpack_require__(142);
+var ReactChildReconciler = __webpack_require__(148);
 
 var emptyFunction = __webpack_require__(10);
-var flattenChildren = __webpack_require__(195);
+var flattenChildren = __webpack_require__(201);
 var invariant = __webpack_require__(1);
 
 /**
@@ -38306,7 +38928,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 171 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38434,7 +39056,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 172 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38489,7 +39111,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 173 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38717,7 +39339,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 174 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38742,7 +39364,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 };
 
-var ReactOwner = __webpack_require__(171);
+var ReactOwner = __webpack_require__(177);
 
 var ReactRef = {};
 
@@ -38853,7 +39475,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 175 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38874,7 +39496,7 @@ var _assign = __webpack_require__(4);
 var PooledClass = __webpack_require__(15);
 var Transaction = __webpack_require__(30);
 var ReactInstrumentation = __webpack_require__(9);
-var ReactServerUpdateQueue = __webpack_require__(176);
+var ReactServerUpdateQueue = __webpack_require__(182);
 
 /**
  * Executed within the scope of the `Transaction` instance. Consider these as
@@ -38985,7 +39607,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 176 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39161,7 +39783,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 177 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39200,7 +39822,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 178 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39539,7 +40161,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 179 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39555,7 +40177,7 @@ var _temp2 = function () {
 
 
 
-var EventPropagators = __webpack_require__(23);
+var EventPropagators = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(6);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactInputSelection = __webpack_require__(71);
@@ -39795,7 +40417,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 180 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39815,19 +40437,19 @@ var _temp2 = function () {
 var _prodInvariant = __webpack_require__(3);
 
 var EventListener = __webpack_require__(59);
-var EventPropagators = __webpack_require__(23);
+var EventPropagators = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(5);
-var SyntheticAnimationEvent = __webpack_require__(181);
-var SyntheticClipboardEvent = __webpack_require__(182);
+var SyntheticAnimationEvent = __webpack_require__(187);
+var SyntheticClipboardEvent = __webpack_require__(188);
 var SyntheticEvent = __webpack_require__(13);
-var SyntheticFocusEvent = __webpack_require__(185);
-var SyntheticKeyboardEvent = __webpack_require__(187);
+var SyntheticFocusEvent = __webpack_require__(191);
+var SyntheticKeyboardEvent = __webpack_require__(193);
 var SyntheticMouseEvent = __webpack_require__(29);
-var SyntheticDragEvent = __webpack_require__(184);
-var SyntheticTouchEvent = __webpack_require__(188);
-var SyntheticTransitionEvent = __webpack_require__(189);
-var SyntheticUIEvent = __webpack_require__(25);
-var SyntheticWheelEvent = __webpack_require__(190);
+var SyntheticDragEvent = __webpack_require__(190);
+var SyntheticTouchEvent = __webpack_require__(194);
+var SyntheticTransitionEvent = __webpack_require__(195);
+var SyntheticUIEvent = __webpack_require__(26);
+var SyntheticWheelEvent = __webpack_require__(196);
 
 var emptyFunction = __webpack_require__(10);
 var getEventCharCode = __webpack_require__(46);
@@ -40073,7 +40695,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 181 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40145,7 +40767,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 182 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40216,7 +40838,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 183 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40285,7 +40907,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 184 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40354,7 +40976,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 185 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40370,7 +40992,7 @@ var _temp2 = function () {
 
 
 
-var SyntheticUIEvent = __webpack_require__(25);
+var SyntheticUIEvent = __webpack_require__(26);
 
 /**
  * @interface FocusEvent
@@ -40423,7 +41045,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 186 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40493,7 +41115,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 187 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40509,10 +41131,10 @@ var _temp2 = function () {
 
 
 
-var SyntheticUIEvent = __webpack_require__(25);
+var SyntheticUIEvent = __webpack_require__(26);
 
 var getEventCharCode = __webpack_require__(46);
-var getEventKey = __webpack_require__(196);
+var getEventKey = __webpack_require__(202);
 var getEventModifierState = __webpack_require__(47);
 
 /**
@@ -40610,7 +41232,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 188 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40626,7 +41248,7 @@ var _temp2 = function () {
 
 
 
-var SyntheticUIEvent = __webpack_require__(25);
+var SyntheticUIEvent = __webpack_require__(26);
 
 var getEventModifierState = __webpack_require__(47);
 
@@ -40688,7 +41310,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 189 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40760,7 +41382,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 190 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40847,7 +41469,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 191 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40924,7 +41546,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 192 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40950,7 +41572,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactPropTypeLocationNames = __webpack_require__(172);
+var ReactPropTypeLocationNames = __webpack_require__(178);
 var ReactPropTypesSecret = __webpack_require__(74);
 
 var invariant = __webpack_require__(1);
@@ -41059,7 +41681,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 193 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41176,7 +41798,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 194 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41196,7 +41818,7 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(12);
 var ReactDOMComponentTree = __webpack_require__(5);
-var ReactInstanceMap = __webpack_require__(24);
+var ReactInstanceMap = __webpack_require__(25);
 
 var getHostComponentFromComposite = __webpack_require__(78);
 var invariant = __webpack_require__(1);
@@ -41266,7 +41888,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 195 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41390,7 +42012,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 196 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41529,7 +42151,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 197 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41607,7 +42229,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 198 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41718,7 +42340,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 199 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41864,7 +42486,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 200 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41919,7 +42541,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 201 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41960,7 +42582,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 202 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42066,7 +42688,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 203 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42086,7 +42708,7 @@ var _temp2 = function () {
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
 
-var factory = __webpack_require__(204);
+var factory = __webpack_require__(210);
 module.exports = function (isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -42114,7 +42736,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 204 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42142,7 +42764,7 @@ var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
 var ReactPropTypesSecret = __webpack_require__(84);
-var checkPropTypes = __webpack_require__(202);
+var checkPropTypes = __webpack_require__(208);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -42641,7 +43263,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 205 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42737,7 +43359,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 206 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42911,7 +43533,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 207 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42927,11 +43549,11 @@ var _temp2 = function () {
 
 
 
-var PooledClass = __webpack_require__(206);
+var PooledClass = __webpack_require__(212);
 var ReactElement = __webpack_require__(16);
 
 var emptyFunction = __webpack_require__(10);
-var traverseAllChildren = __webpack_require__(217);
+var traverseAllChildren = __webpack_require__(223);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -43186,7 +43808,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 208 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43218,7 +43840,7 @@ var ReactElement = __webpack_require__(16);
 var ReactPropTypeLocationNames = __webpack_require__(87);
 var ReactNoopUpdateQueue = __webpack_require__(53);
 
-var emptyObject = __webpack_require__(21);
+var emptyObject = __webpack_require__(22);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
@@ -44016,7 +44638,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 209 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44220,7 +44842,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 210 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44268,7 +44890,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 211 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44314,7 +44936,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 212 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44335,7 +44957,7 @@ var _assign = __webpack_require__(4);
 var ReactComponent = __webpack_require__(52);
 var ReactNoopUpdateQueue = __webpack_require__(53);
 
-var emptyObject = __webpack_require__(21);
+var emptyObject = __webpack_require__(22);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -44389,7 +45011,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 213 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44428,7 +45050,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 214 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44455,7 +45077,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 var _prodInvariant = __webpack_require__(17);
 
 var ReactPropTypeLocationNames = __webpack_require__(87);
-var ReactPropTypesSecret = __webpack_require__(211);
+var ReactPropTypesSecret = __webpack_require__(217);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -44563,7 +45185,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 215 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44617,7 +45239,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 216 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44685,7 +45307,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 217 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44716,7 +45338,7 @@ var REACT_ELEMENT_TYPE = __webpack_require__(85);
 
 var getIteratorFn = __webpack_require__(88);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(205);
+var KeyEscapeUtils = __webpack_require__(211);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -44921,7 +45543,7 @@ var _temp2 = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 218 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44983,7 +45605,7 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 219 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45033,13 +45655,13 @@ var _temp2 = function () {
 ;
 
 /***/ }),
-/* 220 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _react = __webpack_require__(26);
+var _react = __webpack_require__(21);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -45107,628 +45729,6 @@ var _temp2 = function () {
   __REACT_HOT_LOADER__.register(dElement, 'dElement', '/Users/abhinay/GitHub/game/game_client/public/javascript/index.js');
 
   __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/public/javascript/index.js');
-}();
-
-;
-
-/***/ }),
-/* 221 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    'mask': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
-        'zIndex': 10001
-    },
-    'maskHidden': {
-        'display': 'none'
-    },
-    'container': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': 10000
-    },
-    'containerHidden': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': -1
-    },
-    'panel': {
-        'backgroundColor': '#fff',
-        'borderRadius': '5px',
-        'boxSizing': 'border-box',
-        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
-        'transform': 'translate3d(0, 0, 0)',
-        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
-        'zIndex': 10002
-    },
-    'panelHidden': {
-        'transform': 'translate3d(0, -100px, 0)',
-        'opacity': 0,
-        'zIndex': -1,
-        'height': 0,
-        'width': 0,
-        'overflow': 'hidden'
-    }
-};
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-}();
-
-;
-;
-
-var _temp2 = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInDown.js');
-}();
-
-;
-
-/***/ }),
-/* 222 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    'mask': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
-        'zIndex': 10001
-    },
-    'maskHidden': {
-        'display': 'none'
-    },
-    'container': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': 10000
-    },
-    'containerHidden': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': -1
-    },
-    'panel': {
-        'backgroundColor': '#fff',
-        'borderRadius': '5px',
-        'boxSizing': 'border-box',
-        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
-        'transform': 'translate3d(0, 0, 0)',
-        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
-        'zIndex': 10002
-    },
-    'panelHidden': {
-        'transform': 'translate3d(-100px, 0, 0)',
-        'opacity': 0,
-        'zIndex': -1,
-        'height': 0,
-        'width': 0,
-        'overflow': 'hidden'
-    }
-};
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-}();
-
-;
-;
-
-var _temp2 = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInLeft.js');
-}();
-
-;
-
-/***/ }),
-/* 223 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    'mask': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
-        'zIndex': 10001
-    },
-    'maskHidden': {
-        'display': 'none'
-    },
-    'container': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': 10000
-    },
-    'containerHidden': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': -1
-    },
-    'panel': {
-        'backgroundColor': '#fff',
-        'borderRadius': '5px',
-        'boxSizing': 'border-box',
-        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
-        'transform': 'translate3d(0, 0, 0)',
-        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
-        'zIndex': 10002
-    },
-    'panelHidden': {
-        'transform': 'translate3d(100px, 0, 0)',
-        'opacity': 0,
-        'zIndex': -1,
-        'height': 0,
-        'width': 0,
-        'overflow': 'hidden'
-    }
-};
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-}();
-
-;
-;
-
-var _temp2 = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInRight.js');
-}();
-
-;
-
-/***/ }),
-/* 224 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    'mask': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'backgroundColor': 'rgba(0, 0, 0, 0.7)',
-        'zIndex': 10001
-    },
-    'maskHidden': {
-        'display': 'none'
-    },
-    'container': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': 10000
-    },
-    'containerHidden': {
-        'position': 'fixed',
-        'top': 0,
-        'left': 0,
-        'width': '100%',
-        'height': '100%',
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-        'zIndex': -1
-    },
-    'panel': {
-        'backgroundColor': '#fff',
-        'borderRadius': '5px',
-        'boxSizing': 'border-box',
-        'boxShadow': '0 2px 4px rgba(0, 0, 0, 0.3)',
-        'transform': 'translate3d(0, 0, 0)',
-        'transition': 'transform 500ms cubic-bezier(0, 0, 0.25, 1), opacity 500ms cubic-bezier(0, 0, 0.25, 1)',
-        'zIndex': 10002
-    },
-    'panelHidden': {
-        'transform': 'translate3d(0, 100px, 0)',
-        'opacity': 0,
-        'zIndex': -1,
-        'height': 0,
-        'width': 0,
-        'overflow': 'hidden'
-    }
-};
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-}();
-
-;
-;
-
-var _temp2 = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/effect/fadeInUp.js');
-}();
-
-;
-
-/***/ }),
-/* 225 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];for (var key in source) {
-            if (Object.prototype.hasOwnProperty.call(source, key)) {
-                target[key] = source[key];
-            }
-        }
-    }return target;
-};
-
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
-
-var _react = __webpack_require__(26);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _style = __webpack_require__(226);
-
-var _style2 = _interopRequireDefault(_style);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-
-function _possibleConstructorReturn(self, call) {
-    if (!self) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-var Modal = function (_Component) {
-    _inherits(Modal, _Component);
-
-    function Modal(props) {
-        _classCallCheck(this, Modal);
-
-        var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
-
-        var effect = props.effect || 'fadeInDown';
-        _this.setSize(effect);
-        _this.state = {
-            visible: props.visible,
-            style: _style2.default[effect]
-        };
-        return _this;
-    }
-
-    _createClass(Modal, [{
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(_ref) {
-            var visible = _ref.visible,
-                _ref$effect = _ref.effect,
-                effect = _ref$effect === undefined ? 'fadeInDown' : _ref$effect;
-
-            this.setState({
-                visible: visible
-            });
-            this.setSize(effect);
-            this.setStyles(effect);
-        }
-    }, {
-        key: 'setStyles',
-        value: function setStyles(effect) {
-            if (this.props && this.props.styles) {
-                _style2.default[effect].panel = _extends({}, _style2.default[effect].panel, this.props.styles);
-            }
-        }
-    }, {
-        key: 'setSize',
-        value: function setSize(effect) {
-            if (this.props && this.props.width) {
-                if (this.props.width.charAt(this.props.width.length - 1) === '%') {
-                    // Use Percentage
-                    var width = this.props.width.slice(0, -1);
-                    _style2.default[effect].panel.width = width + '%';
-                } else if (this.props.width.charAt(this.props.width.length - 1) === 'x') {
-                    // Use Pixels
-                    var _width = this.props.width.slice(0, -2);
-                    _style2.default[effect].panel.width = _width + 'px';
-                } else {
-                    // Defaults
-                    _style2.default[effect].panel.width = this.props.width + 'px';
-                }
-            }
-            if (this.props && this.props.height) {
-                if (this.props.height.charAt(this.props.height.length - 1) === '%') {
-                    // Use Percentage
-                    var height = this.props.height.slice(0, -1);
-                    _style2.default[effect].panel.height = height + 'vh';
-                } else if (this.props.height.charAt(this.props.height.length - 1) === 'x') {
-                    // Use Pixels
-                    var _height = this.props.height.slice(0, -2);
-                    _style2.default[effect].panel.height = _height + 'px';
-                } else {
-                    // Defaults
-                    _style2.default[effect].panel.height = this.props.height + 'px';
-                }
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement('div', null, _react2.default.createElement('div', { style: this.state.visible ? this.state.style.container : this.state.style.containerHidden }, _react2.default.createElement('div', { style: this.state.visible ? _extends({}, this.state.style.panel) : this.state.style.panelHidden }, this.props.children), _react2.default.createElement('div', { style: this.state.visible ? this.state.style.mask : this.state.style.maskHidden, onClick: this.props.onClickAway ? this.props.onClickAway : null })));
-        }
-    }]);
-
-    return Modal;
-}(_react.Component);
-
-exports.default = Modal;
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_extends, "_extends", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_createClass, "_createClass", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_react2, "_react2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_style2, "_style2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_interopRequireDefault, "_interopRequireDefault", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_classCallCheck, "_classCallCheck", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_possibleConstructorReturn, "_possibleConstructorReturn", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_inherits, "_inherits", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(Modal, "Modal", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-}();
-
-;
-;
-
-var _temp2 = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_typeof, "_typeof", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_extends, "_extends", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_createClass, "_createClass", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_react2, "_react2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_style2, "_style2", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_interopRequireDefault, "_interopRequireDefault", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_classCallCheck, "_classCallCheck", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_possibleConstructorReturn, "_possibleConstructorReturn", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_inherits, "_inherits", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(Modal, "Modal", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-
-    __REACT_HOT_LOADER__.register(_temp, "_temp", "/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/index.js");
-}();
-
-;
-
-/***/ }),
-/* 226 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _fadeInDown = __webpack_require__(221);
-
-var _fadeInDown2 = _interopRequireDefault(_fadeInDown);
-
-var _fadeInUp = __webpack_require__(224);
-
-var _fadeInUp2 = _interopRequireDefault(_fadeInUp);
-
-var _fadeInLeft = __webpack_require__(222);
-
-var _fadeInLeft2 = _interopRequireDefault(_fadeInLeft);
-
-var _fadeInRight = __webpack_require__(223);
-
-var _fadeInRight2 = _interopRequireDefault(_fadeInRight);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
-
-exports.default = {
-    fadeInDown: _fadeInDown2.default,
-    fadeInUp: _fadeInUp2.default,
-    fadeInLeft: _fadeInLeft2.default,
-    fadeInRight: _fadeInRight2.default
-};
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_fadeInDown2, '_fadeInDown2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_fadeInUp2, '_fadeInUp2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_fadeInLeft2, '_fadeInLeft2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_fadeInRight2, '_fadeInRight2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-}();
-
-;
-;
-
-var _temp2 = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(_fadeInDown2, '_fadeInDown2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_fadeInUp2, '_fadeInUp2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_fadeInLeft2, '_fadeInLeft2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_fadeInRight2, '_fadeInRight2', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_interopRequireDefault, '_interopRequireDefault', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
-
-    __REACT_HOT_LOADER__.register(_temp, '_temp', '/Users/abhinay/GitHub/game/game_client/node_modules/react-awesome-modal/lib/style.js');
 }();
 
 ;

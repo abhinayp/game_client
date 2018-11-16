@@ -318,7 +318,7 @@ class Game extends Component {
     let user = this.state.user
     return (
       <div className="user-details">
-        <div className="bg-light m-4 rounded shadow">
+        <div className="bg-light m-4 rounded shadow-lg">
           <div className="px-3 py-2">
             <div><span className="text-primary">{user['name']}</span><small className="bg-secondary text-light px-2 py-1 rounded ml-1">{user['role']}</small></div>
             <div className="py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2">
@@ -346,7 +346,7 @@ class Game extends Component {
     }
     return (
       <div style={styles}>
-        <div className="btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer" onClick={() => this.showTraps(true)}>
+        <div className="btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer font-weight-light" onClick={() => this.showTraps(true)}>
           Finish
         </div>
       </div>
@@ -365,7 +365,7 @@ class Game extends Component {
       <div style={styles}>
         <div className="btn-light rounded p-2 m-4 shadow c-pointer">
           <small>
-            <span className="bg-dark text-light px-1 py-1 rounded">Total traps - {traps}</span>
+            <span className="bg-primary text-light px-1 py-1 rounded">Total traps - {traps}</span>
             <span className="bg-success text-light px-1 py-1 rounded ml-2">Traps Defused- {detraps}</span>
             <span className="bg-danger text-light px-1 py-1 rounded ml-2">Traps Remaining- {traps - detraps}</span>
           </small>
@@ -412,7 +412,7 @@ class Game extends Component {
 
     return (
         <div className="text-center my-3" style={styles}>
-          <small><a className="text-light c-pointer" onClick={this.hideAll.bind(this)}>{text}</a></small>
+          <small><a className="text-dark c-pointer" onClick={this.hideAll.bind(this)}>{text}</a></small>
         </div>
     )
 

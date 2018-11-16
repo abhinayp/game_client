@@ -32,8 +32,8 @@
 }
 
 .game-cell {
-  border: 2px solid rgba(0, 0, 0, 0.8);
-  background-color: rgba(75, 75, 75, 1);
+  border: 1px solid rgba(111, 124, 143, 0.8);
+  background-color: rgb(196, 195, 195);
 }
 
 .game-cell-hover:hover {
@@ -45,7 +45,7 @@
 }
 
 .trap-cell-success, .trap-cell-success:hover {
-  background-color: rgba(29, 97, 0, 1);
+  background-color: rgb(2, 172, 78);
 }
 
 .trap-cell-fail:active {
