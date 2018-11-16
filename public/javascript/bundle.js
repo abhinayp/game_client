@@ -13763,7 +13763,10 @@ var Game = function (_Component) {
         y: 15
       },
       traps: [],
-      user: {}
+      deTraps: [],
+      followDetrapCells: [],
+      user: {},
+      showtraps: false
     };
     return _this;
   }
@@ -13777,7 +13780,9 @@ var Game = function (_Component) {
 
     try {
       this.getUser(function () {
-        _this2.gettraps();
+        // this.gettraps()
+        _this2.loadTraps();
+        _this2.getDetraps();
       });
     } catch (e) {
       console.log(e);
@@ -13796,6 +13801,21 @@ var Game = function (_Component) {
       this.createTrap(trap).bind(this);
     }
     // this.setState({traps: traps})
+  };
+
+  Game.prototype.onClickDetrap = function onClickDetrap(x, y) {
+    if (this.state.showTraps) {
+      alert("Game finished");
+      this.logout();
+      return;
+    }
+    var followDetrapCells = this.state.followDetrapCells;
+    var trap = { x: x, y: y };
+    if (this.trapExist(trap)) {
+      this.createDetrap(trap);
+    }
+    followDetrapCells.push(trap);
+    this.setState({ followDetrapCells: followDetrapCells });
   };
 
   Game.prototype.getUser = function getUser(callback) {
@@ -13832,17 +13852,91 @@ var Game = function (_Component) {
     });
   };
 
-  Game.prototype.createTrap = function createTrap(trap) {
+  Game.prototype.loadTraps = function loadTraps() {
     var _this5 = this;
+
+    var user = JSON.parse(localStorage['user']);
+    var role = 'hero';
+    if (user['role'] == 'hero') {
+      role = 'villian';
+    }
+    _axios2.default.get('http://localhost:5000/traps/' + role).then(function (res) {
+      var traps = res.data;
+      if (traps) {
+        if (Array.isArray(traps) && traps.length < 1) {
+          _this5.generateGame().bind(_this5);
+        }
+        _this5.setState({ traps: traps });
+      } else {
+        _this5.generateGame().bind(_this5);
+      }
+    });
+  };
+
+  Game.prototype.createTrap = function createTrap(trap) {
+    var _this6 = this;
 
     _axios2.default.post('http://localhost:5000/create_trap', trap).then(function (res) {
       var traps = res.data;
-      _this5.gettraps();
+      _this6.gettraps();
+    });
+  };
+
+  Game.prototype.trapExist = function trapExist(trap) {
+    var traps = this.state.traps;
+    var findTrap = traps.findIndex(function (t) {
+      return t.x == trap.x && t.y == trap.y;
+    });
+    if (findTrap < 0) {
+      return false;
+    }
+
+    return true;
+  };
+
+  Game.prototype.getDetraps = function getDetraps() {
+    var _this7 = this;
+
+    var user = JSON.parse(localStorage['user']);
+    _axios2.default.get('http://localhost:5000/detraps/' + user['role']).then(function (res) {
+      var traps = res.data;
+      if (traps) {
+        _this7.setState({ deTraps: traps });
+      }
+    });
+  };
+
+  Game.prototype.createDetrap = function createDetrap(trap) {
+    var _this8 = this;
+
+    if (!this.trapExist(trap)) {
+      return;
+    }
+    _axios2.default.post('http://localhost:5000/create_detrap', trap).then(function (res) {
+      var traps = res.data;
+      _this8.getDetraps();
+    });
+  };
+
+  Game.prototype.showTraps = function showTraps(status) {
+    this.setState({ showTraps: true }, function () {
+      _axios2.default.post('http://localhost:5000/finish_game', {}).then(function (res) {
+        var traps = res.data;
+      });
+    });
+  };
+
+  Game.prototype.generateGame = function generateGame() {
+    var _this9 = this;
+
+    _axios2.default.post('http://localhost:5000/generate_game', {}).then(function (res) {
+      var traps = res.data;
+      _this9.loadTraps();
     });
   };
 
   Game.prototype.render = function render() {
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.renderUserDetails()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -13850,9 +13944,10 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderTableBody = function renderTableBody() {
-    var _this6 = this;
+    var _this10 = this;
 
     var gridSize = this.state.gridSize;
+    var deTraps = this.state.deTraps;
     var traps = this.state.traps;
     var rows_cell = [];
 
@@ -13861,17 +13956,26 @@ var Game = function (_Component) {
 
       var _loop2 = function _loop2(j) {
 
+        var detrap_index = deTraps.findIndex(function (t) {
+          return t.x == j && t.y == i;
+        });
         var trap_index = traps.findIndex(function (t) {
           return t.x == j && t.y == i;
         });
 
         var trap_class = '';
-        if (trap_index > -1) {
-          trap_class = 'trap-cell';
+        if (!_this10.state.showTraps) {
+          trap_class = 'game-cell-hover c-pointer';
+        }
+        if (_this10.state.showTraps && trap_index > -1) {
+          trap_class = trap_class + ' trap-cell';
+        }
+        if (detrap_index > -1) {
+          trap_class = 'trap-cell-success';
         }
 
-        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class + ' c-pointer', onClick: function onClick() {
-            return _this6.onClickCell(j, i);
+        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, onClick: function onClick() {
+            return _this10.onClickDetrap(j, i);
           } });
 
         cols_cell.push(c);
@@ -13894,6 +13998,19 @@ var Game = function (_Component) {
   Game.prototype.renderUserDetails = function renderUserDetails() {
     var user = this.state.user;
     return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
+  };
+
+  Game.prototype.renderFinish = function renderFinish() {
+    var _this11 = this;
+
+    var styles = {
+      position: 'fixed',
+      bottom: 0,
+      right: 0
+    };
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded px-4 py-2 m-4 h2 shadow c-pointer', onClick: function onClick() {
+        return _this11.showTraps(true);
+      } }, 'Finish'));
   };
 
   return Game;

@@ -12,7 +12,10 @@ class Game extends Component {
         y: 15
       },
       traps: [],
+      deTraps: [],
+      followDetrapCells: [],
       user: {},
+      showtraps: false,
     }
   }
 
@@ -23,7 +26,9 @@ class Game extends Component {
   setUser() {
     try {
       this.getUser(() => {
-        this.gettraps()
+        // this.gettraps()
+        this.loadTraps();
+        this.getDetraps();
       });
     }
     catch(e) {
@@ -41,6 +46,21 @@ class Game extends Component {
       this.createTrap(trap).bind(this);
     }
     // this.setState({traps: traps})
+  }
+
+  onClickDetrap(x, y) {
+    if (this.state.showTraps) {
+      alert("Game finished")
+      this.logout()
+      return;
+    }
+    let followDetrapCells = this.state.followDetrapCells
+    let trap = {x: x, y: y};
+    if (this.trapExist(trap)) {
+      this.createDetrap(trap);
+    }
+    followDetrapCells.push(trap)
+    this.setState({followDetrapCells: followDetrapCells})
   }
 
   getUser(callback) {
@@ -75,11 +95,82 @@ class Game extends Component {
       })
   }
 
+  loadTraps() {
+    let user = JSON.parse(localStorage['user']);
+    let role = 'hero';
+    if (user['role'] == 'hero') {
+      role = 'villian';
+    }
+    axios.get(`http://localhost:5000/traps/${role}`)
+      .then(res => {
+        const traps = res.data;
+        if (traps) {
+          if (Array.isArray(traps) && traps.length < 1) {
+            this.generateGame().bind(this)
+          }
+          this.setState({traps: traps});
+        }
+        else {
+          this.generateGame().bind(this)
+        }
+      })
+  }
+
   createTrap(trap) {
     axios.post(`http://localhost:5000/create_trap`, trap)
       .then(res => {
         const traps = res.data;
         this.gettraps()
+      })
+  }
+
+  trapExist(trap) {
+    let traps = this.state.traps;
+    let findTrap = traps.findIndex(t => t.x == trap.x && t.y == trap.y)
+    if (findTrap < 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+
+  getDetraps() {
+    let user = JSON.parse(localStorage['user']);
+    axios.get(`http://localhost:5000/detraps/${user['role']}`)
+      .then(res => {
+        const traps = res.data;
+        if (traps) {
+          this.setState({deTraps: traps});
+        }
+      })
+  }
+
+  createDetrap(trap) {
+    if (!this.trapExist(trap)) {
+      return;
+    }
+    axios.post(`http://localhost:5000/create_detrap`, trap)
+      .then(res => {
+        const traps = res.data;
+        this.getDetraps()
+      })
+  }
+
+  showTraps(status) {
+    this.setState({showTraps: true}, () => {
+      axios.post(`http://localhost:5000/finish_game`, {})
+        .then(res => {
+          const traps = res.data;
+        })
+    })
+  }
+
+  generateGame() {
+    axios.post(`http://localhost:5000/generate_game`, {})
+      .then(res => {
+        const traps = res.data;
+        this.loadTraps()
       })
   }
 
@@ -89,6 +180,7 @@ class Game extends Component {
         <div>
           {this.renderTable()}
           {this.renderUserDetails()}
+          {this.state.showTraps ? '' : this.renderFinish()}
         </div>
       </div>
     )
@@ -104,6 +196,7 @@ class Game extends Component {
 
   renderTableBody() {
     let gridSize = this.state.gridSize;
+    let deTraps = this.state.deTraps;
     let traps = this.state.traps;
     let rows_cell = [];
 
@@ -111,15 +204,22 @@ class Game extends Component {
       let cols_cell = [];
       for (let j=0; j<=gridSize.x; j++) {
 
+        let detrap_index = deTraps.findIndex(t => t.x == j && t.y ==i)
         let trap_index = traps.findIndex(t => t.x == j && t.y ==i)
 
         let trap_class = ''
-        if (trap_index > -1) {
-          trap_class = 'trap-cell'
+        if (!this.state.showTraps) {
+          trap_class = `game-cell-hover c-pointer`
+        }
+        if (this.state.showTraps && trap_index > -1) {
+          trap_class = `${trap_class} trap-cell`
+        }
+        if (detrap_index > -1) {
+          trap_class = 'trap-cell-success'
         }
 
         let c = (
-          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class} c-pointer`} onClick={() => this.onClickCell(j, i) }></td>
+          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} onClick={() => this.onClickDetrap(j, i) }></td>
         )
 
         cols_cell.push(c);
@@ -149,6 +249,21 @@ class Game extends Component {
           <div className="btn-danger text-center px-2 py-1 rounded-bottom c-pointer" onClick={this.logout.bind(this)}>
             Logout
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderFinish() {
+    let styles = {
+      position: 'fixed',
+      bottom: 0,
+      right: 0,
+    }
+    return (
+      <div style={styles}>
+        <div className="btn-light rounded px-4 py-2 m-4 h2 shadow c-pointer" onClick={() => this.showTraps(true)}>
+          Finish
         </div>
       </div>
     )
