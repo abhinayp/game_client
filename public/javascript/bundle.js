@@ -13792,7 +13792,8 @@ var Game = function (_Component) {
       messages: [],
       messageNumber: 0,
       hideAll: false,
-      winModal: false
+      winModal: false,
+      bigNotification: true
     };
     return _this;
   }
@@ -13812,10 +13813,15 @@ var Game = function (_Component) {
     this.setState({ winModal: status });
   };
 
+  Game.prototype.bigNotification = function bigNotification(status) {
+    status = status || false;
+    this.setState({ bigNotification: status });
+  };
+
   Game.prototype.setMessages = function setMessages() {
     var _this2 = this;
 
-    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 50 }, { message: 'Welcome to battle field', interval: 8000 }, { message: 'You are here to find the traps set by your enimies', interval: 4000 }, { message: null, interval: 6000 }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 40000 }, { message: null, interval: 4000 }];
+    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 6000, fullscreen: true }, { message: 'Welcome to battle field', interval: 8000, fullscreen: true }, { message: 'You are here to find the traps set by your enimies', interval: 4000, fullscreen: true }, { message: null, interval: 40000, fullscreen: false }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }, { message: 'There are ' + (this.state.traps.length - this.state.deTraps.length) + ' traps remaining', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }];
     this.setState({ messages: messages }, function () {
       _this2.botMessages();
     });
@@ -13838,12 +13844,14 @@ var Game = function (_Component) {
 
     var messageNumber = this.state.messageNumber;
     var messages = this.state.messages;
-    setTimeout(function () {
-      _this4.setState({ instructions: messages[messageNumber]['message'] }, function () {
+    this.setState({ instructions: messages[messageNumber]['message'], bigNotification: messages[messageNumber]['fullscreen'] }, function () {
+      setTimeout(function () {
         _this4.nextMessage();
-      });
-    }, messages[messageNumber]['interval']);
+      }, messages[messageNumber]['interval']);
+    });
   };
+
+  Game.prototype.findHints = function findHints() {};
 
   Game.prototype.setUser = function setUser() {
     var _this5 = this;
@@ -14023,7 +14031,7 @@ var Game = function (_Component) {
 
   Game.prototype.render = function render() {
 
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderHideAll()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderBigNotification(), this.renderHideAll()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -14112,8 +14120,6 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderNotifications = function renderNotifications() {
-    var _this15 = this;
-
     var styles = {
       position: 'fixed',
       top: 0,
@@ -14121,13 +14127,11 @@ var Game = function (_Component) {
       maxWidth: '300px'
     };
     var instructions = this.state.instructions;
-    if (!instructions) {
+    if (!instructions || this.state.bigNotification) {
       return '';
     }
 
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in', onClick: function onClick() {
-        return _this15.showTraps(true);
-      } }, _react2.default.createElement('div', null, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:')), this.state.instructions));
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'bg-light rounded px-4 py-2 m-4 shadow c-pointer fade-in' }, _react2.default.createElement('div', null, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:')), this.state.instructions));
   };
 
   Game.prototype.renderHideAll = function renderHideAll() {
@@ -14146,13 +14150,27 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderWin = function renderWin() {
-    var _this16 = this;
+    var _this15 = this;
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.winModal, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this16.winModal(false);
+        return _this15.winModal(false);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('h1', { className: 'p-5 text-center text-primary' }, 'You Won!'), _react2.default.createElement('div', { className: 'text-center' }, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: function onClick() {
-        return _this16.winModal(false);
+        return _this15.winModal(false);
       } }, 'Close')))));
+  };
+
+  Game.prototype.renderBigNotification = function renderBigNotification() {
+    var _this16 = this;
+
+    var instructions = this.state.instructions;
+
+    if (!instructions) {
+      return '';
+    }
+
+    return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.bigNotification, effect: 'fadeInDown', onClickAway: function onClickAway() {
+        return _this16.bigNotification(true);
+      } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-4' }, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:'), _react2.default.createElement('div', null, this.state.instructions)))));
   };
 
   return Game;

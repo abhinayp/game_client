@@ -23,7 +23,8 @@ class Game extends Component {
       messages: [],
       messageNumber: 0,
       hideAll: false,
-      winModal: false
+      winModal: false,
+      bigNotification: true
     }
   }
 
@@ -42,14 +43,21 @@ class Game extends Component {
     this.setState({winModal: status})
   }
 
+  bigNotification(status) {
+    status = status || false
+    this.setState({bigNotification: status})
+  }
+
   setMessages() {
     let messages = [
-      {message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 50},
-      {message: 'Welcome to battle field', interval: 8000},
-      {message: 'You are here to find the traps set by your enimies', interval: 4000},
-      {message: null, interval: 6000},
-      {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 40000},
-      {message: null, interval: 4000}
+      {message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 6000, fullscreen: true},
+      {message: 'Welcome to battle field', interval: 8000, fullscreen: true},
+      {message: 'You are here to find the traps set by your enimies', interval: 4000, fullscreen: true},
+      {message: null, interval: 40000, fullscreen: false},
+      {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 5000, fullscreen: false},
+      {message: null, interval: 4000, fullscreen: false},
+      {message: `There are ${this.state.traps.length - this.state.deTraps.length} traps remaining`, interval: 5000, fullscreen: false},
+      {message: null, interval: 4000, fullscreen: false},
     ]
     this.setState({messages: messages}, () => {
       this.botMessages()
@@ -70,11 +78,16 @@ class Game extends Component {
   botMessages() {
     let messageNumber = this.state.messageNumber;
     let messages = this.state.messages;
-    setTimeout(() => {
-      this.setState({instructions: messages[messageNumber]['message']}, () => {
+    this.setState({instructions: messages[messageNumber]['message'], bigNotification: messages[messageNumber]['fullscreen']}, () => {
+      setTimeout(() => {
         this.nextMessage()
-      })
-    }, messages[messageNumber]['interval']);
+      }, messages[messageNumber]['interval']);
+    })
+
+  }
+
+  findHints() {
+
   }
 
   setUser() {
@@ -257,6 +270,7 @@ class Game extends Component {
             </div>
           )}
           {this.renderWin()}
+          {this.renderBigNotification()}
           {this.renderHideAll()}
         </div>
       </div>
@@ -382,13 +396,13 @@ class Game extends Component {
       maxWidth: '300px'
     }
     let instructions = this.state.instructions
-    if (!instructions) {
+    if (!instructions || this.state.bigNotification) {
       return '';
     }
 
     return (
       <div style={styles}>
-        <div className="btn-light rounded px-4 py-2 m-4 shadow c-pointer fade-in" onClick={() => this.showTraps(true)}>
+        <div className="bg-light rounded px-4 py-2 m-4 shadow c-pointer fade-in">
           <div>
             <small className="text-secondary">Felicity:</small>
           </div>
@@ -429,6 +443,32 @@ class Game extends Component {
               <div className="text-center">
                 <button className="btn btn-primary" onClick={() => this.winModal(false)}>Close</button>
               </div>
+            </div>
+          </div>
+        </Modal>
+      )
+  }
+
+  renderBigNotification() {
+      let instructions = this.state.instructions;
+
+      if (!instructions) {
+        return '';
+      }
+
+      return (
+        <Modal visible={this.state.bigNotification} effect="fadeInDown" onClickAway={() => this.bigNotification(true)}>
+          <div className="modal-dialog">
+            <div>
+              <div className="px-4">
+                <small className="text-secondary">Felicity:</small>
+                <div>
+                  {this.state.instructions}
+                </div>
+              </div>
+              {/*<div className="text-center mt-3">
+                <button className="btn btn-default" onClick={() => this.bigNotification(false)}>Close</button>
+              </div>*/}
             </div>
           </div>
         </Modal>
