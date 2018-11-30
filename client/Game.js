@@ -15,6 +15,7 @@ class Game extends Component {
       },
       traps: [],
       deTraps: [],
+      riddle: null,
       followDetrapCells: [],
       user: {},
       showtraps: false,
@@ -24,14 +25,15 @@ class Game extends Component {
       messageNumber: 0,
       hideAll: false,
       winModal: false,
-      bigNotification: true,
+      bigNotification: false,
+      riddleModal: true,
       hint: {}
     }
   }
 
   componentDidMount() {
     this.setUser()
-    this.setMessages()
+    // this.setMessages()
   }
 
   hideAll() {
@@ -47,6 +49,11 @@ class Game extends Component {
   bigNotification(status) {
     status = status || false
     this.setState({bigNotification: status})
+  }
+
+  riddleModal(status) {
+    status = status || false
+    this.setState({riddleModal: status})
   }
 
   setMessages() {
@@ -324,6 +331,7 @@ class Game extends Component {
           {this.renderWin()}
           {this.renderBigNotification()}
           {this.renderHideAll()}
+          {this.renderRiddle()}
         </div>
       </div>
     )
@@ -361,8 +369,18 @@ class Game extends Component {
           trap_class = 'trap-cell-success'
         }
 
+        let style = {}
+
+        if (i == (gridSize.y-1)/2) {
+          style['borderBottom'] = '1px solid #007bff'
+        }
+
+        if (j == (gridSize.x-1)/2) {
+          style['borderRight'] = '1px solid #007bff'
+        }
+
         let c = (
-          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} onClick={(event) => this.onClickDetrap(event, j, i) }></td>
+          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} style={style} onClick={(event) => this.onClickDetrap(event, j, i) }></td>
         )
 
         cols_cell.push(c);
@@ -526,6 +544,61 @@ class Game extends Component {
         </Modal>
       )
   }
+
+  renderRiddle() {
+    let riddle = this.state.riddle;
+    let title = "Riddle";
+
+    if (!riddle) {
+      return '';
+    }
+
+    if (riddle['question'] == 'jumble') {
+      riddle['question'] = riddle['answer']
+      riddle['answer'] = null
+      title = "Jumble"
+    }
+    else if (riddle['question'] == 'options') {
+      title = "Bomb is located in one of the following"
+      riddle['question'] = riddle['answer'].map((r, index) => {
+        return (
+          <div key={index} className="my-2">
+            {r}
+          </div>
+        )
+      })
+      riddle['answer'] = null
+    }
+
+    return (
+      <Modal visible={this.state.riddleModal} effect="fadeInDown" onClickAway={() => this.riddleModal(true)}>
+        <div className="modal-dialog">
+          <div className="modal-content border-0">
+            <div className="px-4 text-center">
+              <small className="text-secondary">{title}</small>
+              <div>
+                {riddle['question']}
+              </div>
+              {
+                riddle['answer'] ? (
+                  <div className="mt-2">
+                    <input type="text" className="form-control" placeholder="Answer" />
+                    <div className="mt-3">
+                      <button className="btn btn-primary">Submit Answer</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-3">
+                    <button className="btn btn-default border" onClick={() => this.riddleModal(false)}>Close</button>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </Modal>
+    )
+}
 
 }
 

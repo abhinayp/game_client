@@ -13784,6 +13784,7 @@ var Game = function (_Component) {
       },
       traps: [],
       deTraps: [],
+      riddle: null,
       followDetrapCells: [],
       user: {},
       showtraps: false,
@@ -13793,7 +13794,8 @@ var Game = function (_Component) {
       messageNumber: 0,
       hideAll: false,
       winModal: false,
-      bigNotification: true,
+      bigNotification: false,
+      riddleModal: true,
       hint: {}
     };
     return _this;
@@ -13801,7 +13803,7 @@ var Game = function (_Component) {
 
   Game.prototype.componentDidMount = function componentDidMount() {
     this.setUser();
-    this.setMessages();
+    // this.setMessages()
   };
 
   Game.prototype.hideAll = function hideAll() {
@@ -13817,6 +13819,11 @@ var Game = function (_Component) {
   Game.prototype.bigNotification = function bigNotification(status) {
     status = status || false;
     this.setState({ bigNotification: status });
+  };
+
+  Game.prototype.riddleModal = function riddleModal(status) {
+    status = status || false;
+    this.setState({ riddleModal: status });
   };
 
   Game.prototype.setMessages = function setMessages() {
@@ -14089,7 +14096,7 @@ var Game = function (_Component) {
 
   Game.prototype.render = function render() {
 
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderBigNotification(), this.renderHideAll()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderBigNotification(), this.renderHideAll(), this.renderRiddle()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -14127,7 +14134,17 @@ var Game = function (_Component) {
           trap_class = 'trap-cell-success';
         }
 
-        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, onClick: function onClick(event) {
+        var style = {};
+
+        if (i == (gridSize.y - 1) / 2) {
+          style['borderBottom'] = '1px solid #007bff';
+        }
+
+        if (j == (gridSize.x - 1) / 2) {
+          style['borderRight'] = '1px solid #007bff';
+        }
+
+        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, style: style, onClick: function onClick(event) {
             return _this13.onClickDetrap(event, j, i);
           } });
 
@@ -14229,6 +14246,35 @@ var Game = function (_Component) {
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.bigNotification, effect: 'fadeInDown', onClickAway: function onClickAway() {
         return _this16.bigNotification(true);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-4' }, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:'), _react2.default.createElement('div', null, this.state.instructions)))));
+  };
+
+  Game.prototype.renderRiddle = function renderRiddle() {
+    var _this17 = this;
+
+    var riddle = this.state.riddle;
+    var title = "Riddle";
+
+    if (!riddle) {
+      return '';
+    }
+
+    if (riddle['question'] == 'jumble') {
+      riddle['question'] = riddle['answer'];
+      riddle['answer'] = null;
+      title = "Jumble";
+    } else if (riddle['question'] == 'options') {
+      title = "Bomb is located in one of the following";
+      riddle['question'] = riddle['answer'].map(function (r, index) {
+        return _react2.default.createElement('div', { key: index, className: 'my-2' }, r);
+      });
+      riddle['answer'] = null;
+    }
+
+    return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.riddleModal, effect: 'fadeInDown', onClickAway: function onClickAway() {
+        return _this17.riddleModal(true);
+      } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', { className: 'modal-content border-0' }, _react2.default.createElement('div', { className: 'px-4 text-center' }, _react2.default.createElement('small', { className: 'text-secondary' }, title), _react2.default.createElement('div', null, riddle['question']), riddle['answer'] ? _react2.default.createElement('div', { className: 'mt-2' }, _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Answer' }), _react2.default.createElement('div', { className: 'mt-3' }, _react2.default.createElement('button', { className: 'btn btn-primary' }, 'Submit Answer'))) : _react2.default.createElement('div', { className: 'mt-3' }, _react2.default.createElement('button', { className: 'btn btn-default border', onClick: function onClick() {
+        return _this17.riddleModal(false);
+      } }, 'Close'))))));
   };
 
   return Game;
