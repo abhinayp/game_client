@@ -13848,9 +13848,19 @@ var Game = function (_Component) {
 
     var messageNumber = this.state.messageNumber;
     var messages = this.state.messages;
-    m = m || messages[messageNumber]['message'];
-    b = b || messages[messageNumber]['fullscreen'];
-    interval_m = interval_m || messages[messageNumber]['interval'];
+    m = m;
+    b = b;
+    interval_m = interval_m;
+    if (messages && typeof messageNumber == 'number' && messages[messageNumber]) {
+      m = m || messages[messageNumber]['message'];
+      if (b == undefined || b == null) {
+        b = messages[messageNumber]['fullscreen'];
+      }
+      if (interval_m == undefined || interval_m == null) {
+        interval_m = messages[messageNumber]['interval'];
+      }
+    }
+
     this.setState({ instructions: m, bigNotification: b }, function () {
       if (!noNext) {
         setTimeout(function () {
@@ -14217,7 +14227,7 @@ var Game = function (_Component) {
     }
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.bigNotification, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this16.bigNotification(false);
+        return _this16.bigNotification(true);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-4' }, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:'), _react2.default.createElement('div', null, this.state.instructions)))));
   };
 

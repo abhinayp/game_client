@@ -79,9 +79,19 @@ class Game extends Component {
   botMessages(m, b, noNext=false, interval_m) {
     let messageNumber = this.state.messageNumber;
     let messages = this.state.messages;
-    m = m || messages[messageNumber]['message']
-    b = b ||  messages[messageNumber]['fullscreen']
-    interval_m = interval_m || messages[messageNumber]['interval']
+    m = m
+    b = b
+    interval_m = interval_m
+    if (messages && typeof(messageNumber) == 'number' && messages[messageNumber]) {
+      m = m || messages[messageNumber]['message']
+      if (b == undefined || b == null) {
+        b = messages[messageNumber]['fullscreen']
+      }
+      if (interval_m == undefined || interval_m == null) {
+        interval_m =  messages[messageNumber]['interval']
+      }
+    }
+
     this.setState({instructions: m, bigNotification: b}, () => {
       if (!noNext) {
         setTimeout(() => {
@@ -499,7 +509,7 @@ class Game extends Component {
       }
 
       return (
-        <Modal visible={this.state.bigNotification} effect="fadeInDown" onClickAway={() => this.bigNotification(false)}>
+        <Modal visible={this.state.bigNotification} effect="fadeInDown" onClickAway={() => this.bigNotification(true)}>
           <div className="modal-dialog">
             <div>
               <div className="px-4">
