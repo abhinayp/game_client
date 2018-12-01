@@ -30,19 +30,20 @@ class Game extends Component {
       hint: {},
       solvedRiddles: {},
       answerNE: '',
+      moveText: '',
+      intro: false,
 
       health: 10,
       points: 0,
       wood: 0,
-      boatWood: 20,
+      boatWood: 80,
 
-      userLocation: {x: 8, y: 8}
+      userLocation: {}
     }
   }
 
   componentDidMount() {
     this.setUser()
-    // this.setMessages()
   }
 
   increaseHealthTimer() {
@@ -56,7 +57,7 @@ class Game extends Component {
           });
       }
       .bind(this),
-      30000
+      120000
   );
   }
 
@@ -110,14 +111,20 @@ class Game extends Component {
   }
 
   setMessages() {
+    if (!this.state.intro) {
+      return;
+    }
     let messages = [
       {message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true},
       {message: 'You are here to save the soldiers', interval: 2000, fullscreen: true},
-      {message: "I'm gonna help you find the traps set by your enimies, follow my instructions and help the injured soldiers cross the battle field", interval: 10000, fullscreen: true},
-      {message: null, interval: 40000, fullscreen: false},
-      {message: `You found ${this.state.deTraps.length} traps, keep going!`, interval: 5000, fullscreen: false},
-      {message: null, interval: 4000, fullscreen: false},
-      {message: `There are ${this.state.traps.length - this.state.deTraps.length} traps remaining`, interval: 5000, fullscreen: false},
+      {message: "I'm gonna help you build a boat, follow my instructions and help the injured soldiers cross the island using the boat", interval: 10000, fullscreen: true},
+      {message: `Collect points hidden in locations that are glowing green, to buy wood`, interval: 6000, fullscreen: true},
+      {message: `Every step you make consume your 1 of your Health Points(HP)`, interval: 6000, fullscreen: true},
+      {message: `You can buy medicine to impore your health`, interval: 6000, fullscreen: true},
+      {message: `It cost 25 points for 8 health`, interval: 6000, fullscreen: true},
+      {message: `You can buy 10 wood for 25 points`, interval: 6000, fullscreen: true},
+      {message: `Once you reached 80 wood, you can build boat and save the soilders`, interval: 6000, fullscreen: true},
+      {message: `Go, save them`, interval: 2000, fullscreen: true},
       {message: null, interval: 4000, fullscreen: false},
     ]
     this.setState({messages: messages}, () => {
@@ -126,14 +133,18 @@ class Game extends Component {
   }
 
   nextMessage() {
-    let messageNumber = this.state.messageNumber || 0;
-    messageNumber++;
-    this.setState({messageNumber: messageNumber}, () => {
-      if (this.state.messages.length > messageNumber) {
-        this.setMessages()
-      }
-    });
-
+    if (this.state.intro) {
+      let messageNumber = this.state.messageNumber || 0;
+      messageNumber++;
+      this.setState({messageNumber: messageNumber}, () => {
+        if (this.state.messages.length > messageNumber) {
+          this.setMessages()
+        }
+        else {
+          this.skipIntro()
+        }
+      });
+    }
   }
 
   botMessages(m, b, noNext=false, interval_m) {
@@ -179,16 +190,16 @@ class Game extends Component {
 
     untraps.map((ut) => {
       if (ut.x > 8 && ut.y <= 8) {
-        direction.ne++
+        direction.ne = direction.ne + ut['points']
       }
       else if (ut.x > 8) {
-        direction.se++
+        direction.se = direction.se + ut['points']
       }
       else if (ut.x < 8 && ut.y < 8) {
-        direction.nw++
+        direction.nw = direction.nw + ut['points']
       }
       else if (ut.x < 8) {
-        direction.sw++
+        direction.sw = direction.sw + ut['points']
       }
     })
 
@@ -200,7 +211,7 @@ class Game extends Component {
         maxTraps['value'] = value
       }
     }
-    let m = `People in ${maxTraps['direction'].toUpperCase()} direction are stepping toward traps, there are ${maxTraps['value']} traps, save them`
+    let m = `Items in ${maxTraps['direction'].toUpperCase()} direction have more points, there are ${maxTraps['value']} points, get them`
     this.botMessages(m, false, true)
     // this.setState({instructions: ``, bigNotification: false})
   }
@@ -286,12 +297,42 @@ class Game extends Component {
     }
   }
 
+  onChangeMoveText(event) {
+    let value = event.target.value;
+    this.setState({moveText: value});
+  }
+
+  onKeyPressMT(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13') {
+      this.moveText()
+    }
+  }
+
+  moveText() {
+    let moveText = this.state.moveText || '';
+    if (moveText.toLowerCase().includes('up')) {
+      this.moveUp();
+    }
+    else if (moveText.toLowerCase().includes('down')) {
+      this.moveDown();
+    }
+    else if (moveText.toLowerCase().includes('left')) {
+      this.moveLeft();
+    }
+    else if (moveText.toLowerCase().includes('right')) {
+      this.moveRight();
+    }
+    this.setState({moveText: ''})
+  }
+
   moveToUserLocation() {
     let userLocation = this.state.userLocation;
     let x = userLocation['x'] || 0
     let y = userLocation['y'] || 0
     this.onClickDetrap(null, x, y)
     this.updateGame()
+    this.updateCurrentLocation()
   }
 
   onClickDetrap(event, x, y) {
@@ -300,7 +341,7 @@ class Game extends Component {
       this.logout()
       return;
     }
-    // this.findHints()
+    this.findHints()
     let followDetrapCells = this.state.followDetrapCells
     let trap = {x: x, y: y};
     let t = this.trapExist(trap);
@@ -359,7 +400,12 @@ class Game extends Component {
         const traps = res.data;
         if (traps) {
           if (Array.isArray(traps) && traps.length < 1) {
-            this.generateGame().bind(this)
+            try {
+              this.generateGame().bind(this)
+            }
+            catch (e) {
+
+            }
           }
           this.setState({traps: traps});
         }
@@ -434,7 +480,8 @@ class Game extends Component {
       .then(res => {
         const game = res.data;
         if (game) {
-          this.setState({health: game['health'], points: game['points']})
+          this.getGame()
+          // this.setState({health: game['health'], points: game['points']})
         }
         this.loadTraps()
       })
@@ -450,12 +497,35 @@ class Game extends Component {
       })
   }
 
+  updateCurrentLocation() {
+    let userLocation = this.state.userLocation
+    axios.post(`http://localhost:5000/update_current_location`, {x: userLocation['x'], y: userLocation['y']})
+      .then(res => {
+        const game = res.data;
+        if (game) {
+          this.getGame()
+        }
+      })
+  }
+
+  skipIntro() {
+    axios.post(`http://localhost:5000/skip_intro`, {})
+      .then(res => {
+        const game = res.data;
+        if (game) {
+          this.getGame()
+        }
+      })
+  }
+
   getGame() {
     axios.get(`http://localhost:5000/get_game`)
       .then(res => {
         const game = res.data;
         if (game) {
-          this.setState({health: game['health'], points: game['points'], wood: game['wood']})
+          this.setState({health: game['health'], points: game['points'], wood: game['wood'], userLocation: game['current_location'], intro: game['intro']}, () => {
+            this.setMessages()
+          })
         }
       })
   }
@@ -554,18 +624,8 @@ class Game extends Component {
           trap_class = 'bg-dark'
         }
 
-        let style = {}
-
-        if (i == (gridSize.y-1)/2) {
-          style['borderBottom'] = '1px solid #007bff'
-        }
-
-        if (j == (gridSize.x-1)/2) {
-          style['borderRight'] = '1px solid #007bff'
-        }
-
         let c = (
-          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} style={style}></td>
+          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`}></td>
         )
 
         cols_cell.push(c);
@@ -589,7 +649,7 @@ class Game extends Component {
       <div className="user-details">
         <div className="bg-light m-4 rounded shadow-lg">
           <div className="px-3 py-2">
-            <div><span className="text-primary">{user['name']}</span><small className="bg-secondary text-light px-2 py-1 rounded ml-1">{user['role']}</small></div>
+            <div><span className="text-primary">#{user['name']}</span></div>
             <div className="py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2">
               <small>
                 <div>
@@ -598,10 +658,17 @@ class Game extends Component {
                 <small>{user['api_token']}</small>
               </small>
             </div>
+            <div className="py-1 px-2 text-light bg-secondary rounded mt-2 shadow">
+              <small>
+                <div>Buy 8 HP for 25 points</div>
+                <div>Buy 10 wood for 25 points</div>
+                <div>Build a boat with 80 wood</div>
+              </small>
+            </div>
             <div className="bg-primary rounded py-1 px-2 text-white shadow my-1 mt-2">
               <div className="row text-center">
                 <div className="col-md-4">
-                  <small>Health</small>
+                  <small>HP</small>
                   <div>
                     {this.state.health}
                   </div>
@@ -619,8 +686,8 @@ class Game extends Component {
                   </div>
                 </div>
               </div>
-
             </div>
+
           </div>
           <div className="btn-danger text-center px-2 py-1 rounded-bottom c-pointer" onClick={this.logout.bind(this)}>
             Logout
@@ -666,10 +733,16 @@ class Game extends Component {
         <div className="btn-light rounded p-2 m-4 shadow c-pointer">
           <small>
             <button className="btn btn-primary" onClick={this.moveUp.bind(this)}>Move Up</button>
-            <button className="btn btn-success ml-2" onClick={this.moveDown.bind(this)}>Move Down</button>
-            <button className="btn btn-dark ml-2" onClick={this.moveLeft.bind(this)}>Move Left</button>
-            <button className="btn btn-info ml-2" onClick={this.moveRight.bind(this)}>Move Right</button>
+            <button className="btn btn-primary ml-2" onClick={this.moveDown.bind(this)}>Move Down</button>
+            <button className="btn btn-primary ml-2" onClick={this.moveLeft.bind(this)}>Move Left</button>
+            <button className="btn btn-primary ml-2" onClick={this.moveRight.bind(this)}>Move Right</button>
           </small>
+          {/* <div className="mt-1 mx-2 mb-2">
+            Enter which direction you want to move
+          </div>
+          <div className="mb-1">
+            <input type="text" placeholder="Up, Go Down, Move Right, Try Left ..." className="form-control" onChange={this.onChangeMoveText.bind(this)} value={this.state.moveText} onKeyPress={(event) => this.onKeyPressMT(event)} />
+          </div> */}
         </div>
       </div>
     )

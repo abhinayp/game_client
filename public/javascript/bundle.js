@@ -13799,20 +13799,21 @@ var Game = function (_Component) {
       hint: {},
       solvedRiddles: {},
       answerNE: '',
+      moveText: '',
+      intro: false,
 
       health: 10,
       points: 0,
       wood: 0,
-      boatWood: 20,
+      boatWood: 80,
 
-      userLocation: { x: 8, y: 8 }
+      userLocation: {}
     };
     return _this;
   }
 
   Game.prototype.componentDidMount = function componentDidMount() {
     this.setUser();
-    // this.setMessages()
   };
 
   Game.prototype.increaseHealthTimer = function increaseHealthTimer() {
@@ -13825,7 +13826,7 @@ var Game = function (_Component) {
         _this2.updateGame();
         _this2.increaseHealthTimer();
       });
-    }.bind(this), 30000);
+    }.bind(this), 120000);
   };
 
   Game.prototype.answerNE = function answerNE(event) {
@@ -13882,7 +13883,10 @@ var Game = function (_Component) {
   Game.prototype.setMessages = function setMessages() {
     var _this4 = this;
 
-    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true }, { message: 'You are here to save the soldiers', interval: 2000, fullscreen: true }, { message: "I'm gonna help you find the traps set by your enimies, follow my instructions and help the injured soldiers cross the battle field", interval: 10000, fullscreen: true }, { message: null, interval: 40000, fullscreen: false }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }, { message: 'There are ' + (this.state.traps.length - this.state.deTraps.length) + ' traps remaining', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }];
+    if (!this.state.intro) {
+      return;
+    }
+    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true }, { message: 'You are here to save the soldiers', interval: 2000, fullscreen: true }, { message: "I'm gonna help you build a boat, follow my instructions and help the injured soldiers cross the island using the boat", interval: 10000, fullscreen: true }, { message: 'Collect points hidden in locations that are glowing green, to buy wood', interval: 6000, fullscreen: true }, { message: 'Every step you make consume your 1 of your Health Points(HP)', interval: 6000, fullscreen: true }, { message: 'You can buy medicine to impore your health', interval: 6000, fullscreen: true }, { message: 'It cost 25 points for 8 health', interval: 6000, fullscreen: true }, { message: 'You can buy 10 wood for 25 points', interval: 6000, fullscreen: true }, { message: 'Once you reached 80 wood, you can build boat and save the soilders', interval: 6000, fullscreen: true }, { message: 'Go, save them', interval: 2000, fullscreen: true }, { message: null, interval: 4000, fullscreen: false }];
     this.setState({ messages: messages }, function () {
       _this4.botMessages();
     });
@@ -13891,13 +13895,17 @@ var Game = function (_Component) {
   Game.prototype.nextMessage = function nextMessage() {
     var _this5 = this;
 
-    var messageNumber = this.state.messageNumber || 0;
-    messageNumber++;
-    this.setState({ messageNumber: messageNumber }, function () {
-      if (_this5.state.messages.length > messageNumber) {
-        _this5.setMessages();
-      }
-    });
+    if (this.state.intro) {
+      var messageNumber = this.state.messageNumber || 0;
+      messageNumber++;
+      this.setState({ messageNumber: messageNumber }, function () {
+        if (_this5.state.messages.length > messageNumber) {
+          _this5.setMessages();
+        } else {
+          _this5.skipIntro();
+        }
+      });
+    }
   };
 
   Game.prototype.botMessages = function botMessages(m, b) {
@@ -13951,13 +13959,13 @@ var Game = function (_Component) {
 
     untraps.map(function (ut) {
       if (ut.x > 8 && ut.y <= 8) {
-        direction.ne++;
+        direction.ne = direction.ne + ut['points'];
       } else if (ut.x > 8) {
-        direction.se++;
+        direction.se = direction.se + ut['points'];
       } else if (ut.x < 8 && ut.y < 8) {
-        direction.nw++;
+        direction.nw = direction.nw + ut['points'];
       } else if (ut.x < 8) {
-        direction.sw++;
+        direction.sw = direction.sw + ut['points'];
       }
     });
 
@@ -13968,7 +13976,7 @@ var Game = function (_Component) {
         maxTraps['value'] = value;
       }
     }
-    var m = 'People in ' + maxTraps['direction'].toUpperCase() + ' direction are stepping toward traps, there are ' + maxTraps['value'] + ' traps, save them';
+    var m = 'Items in ' + maxTraps['direction'].toUpperCase() + ' direction have more points, there are ' + maxTraps['value'] + ' points, get them';
     this.botMessages(m, false, true);
     // this.setState({instructions: ``, bigNotification: false})
   };
@@ -14065,12 +14073,39 @@ var Game = function (_Component) {
     }
   };
 
+  Game.prototype.onChangeMoveText = function onChangeMoveText(event) {
+    var value = event.target.value;
+    this.setState({ moveText: value });
+  };
+
+  Game.prototype.onKeyPressMT = function onKeyPressMT(event) {
+    var keycode = event.keyCode ? event.keyCode : event.which;
+    if (keycode == '13') {
+      this.moveText();
+    }
+  };
+
+  Game.prototype.moveText = function moveText() {
+    var moveText = this.state.moveText || '';
+    if (moveText.toLowerCase().includes('up')) {
+      this.moveUp();
+    } else if (moveText.toLowerCase().includes('down')) {
+      this.moveDown();
+    } else if (moveText.toLowerCase().includes('left')) {
+      this.moveLeft();
+    } else if (moveText.toLowerCase().includes('right')) {
+      this.moveRight();
+    }
+    this.setState({ moveText: '' });
+  };
+
   Game.prototype.moveToUserLocation = function moveToUserLocation() {
     var userLocation = this.state.userLocation;
     var x = userLocation['x'] || 0;
     var y = userLocation['y'] || 0;
     this.onClickDetrap(null, x, y);
     this.updateGame();
+    this.updateCurrentLocation();
   };
 
   Game.prototype.onClickDetrap = function onClickDetrap(event, x, y) {
@@ -14081,7 +14116,7 @@ var Game = function (_Component) {
       this.logout();
       return;
     }
-    // this.findHints()
+    this.findHints();
     var followDetrapCells = this.state.followDetrapCells;
     var trap = { x: x, y: y };
     var t = this.trapExist(trap);
@@ -14143,7 +14178,9 @@ var Game = function (_Component) {
       var traps = res.data;
       if (traps) {
         if (Array.isArray(traps) && traps.length < 1) {
-          _this15.generateGame().bind(_this15);
+          try {
+            _this15.generateGame().bind(_this15);
+          } catch (e) {}
         }
         _this15.setState({ traps: traps });
       } else {
@@ -14225,7 +14262,8 @@ var Game = function (_Component) {
     _axios2.default.post('http://localhost:5000/generate_game', {}).then(function (res) {
       var game = res.data;
       if (game) {
-        _this19.setState({ health: game['health'], points: game['points'] });
+        _this19.getGame();
+        // this.setState({health: game['health'], points: game['points']})
       }
       _this19.loadTraps();
     });
@@ -14242,21 +14280,22 @@ var Game = function (_Component) {
     });
   };
 
-  Game.prototype.getGame = function getGame() {
+  Game.prototype.updateCurrentLocation = function updateCurrentLocation() {
     var _this21 = this;
 
-    _axios2.default.get('http://localhost:5000/get_game').then(function (res) {
+    var userLocation = this.state.userLocation;
+    _axios2.default.post('http://localhost:5000/update_current_location', { x: userLocation['x'], y: userLocation['y'] }).then(function (res) {
       var game = res.data;
       if (game) {
-        _this21.setState({ health: game['health'], points: game['points'], wood: game['wood'] });
+        _this21.getGame();
       }
     });
   };
 
-  Game.prototype.buyHealth = function buyHealth() {
+  Game.prototype.skipIntro = function skipIntro() {
     var _this22 = this;
 
-    _axios2.default.post('http://localhost:5000/buy_health', {}).then(function (res) {
+    _axios2.default.post('http://localhost:5000/skip_intro', {}).then(function (res) {
       var game = res.data;
       if (game) {
         _this22.getGame();
@@ -14264,25 +14303,49 @@ var Game = function (_Component) {
     });
   };
 
-  Game.prototype.buyWood = function buyWood() {
+  Game.prototype.getGame = function getGame() {
     var _this23 = this;
+
+    _axios2.default.get('http://localhost:5000/get_game').then(function (res) {
+      var game = res.data;
+      if (game) {
+        _this23.setState({ health: game['health'], points: game['points'], wood: game['wood'], userLocation: game['current_location'], intro: game['intro'] }, function () {
+          _this23.setMessages();
+        });
+      }
+    });
+  };
+
+  Game.prototype.buyHealth = function buyHealth() {
+    var _this24 = this;
+
+    _axios2.default.post('http://localhost:5000/buy_health', {}).then(function (res) {
+      var game = res.data;
+      if (game) {
+        _this24.getGame();
+      }
+    });
+  };
+
+  Game.prototype.buyWood = function buyWood() {
+    var _this25 = this;
 
     _axios2.default.post('http://localhost:5000/buy_wood', {}).then(function (res) {
       var game = res.data;
       if (game) {
-        _this23.getGame();
+        _this25.getGame();
       }
     });
   };
 
   Game.prototype.buildBoat = function buildBoat() {
-    var _this24 = this;
+    var _this26 = this;
 
     var wood = this.state.wood;
     var boatWood = this.state.boatWood;
     if (wood >= boatWood) {
       this.setState({ win: true, winModal: true }, function () {
-        _this24.showTraps(true);
+        _this26.showTraps(true);
       });
     }
   };
@@ -14305,7 +14368,7 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderTableBody = function renderTableBody() {
-    var _this25 = this;
+    var _this27 = this;
 
     var gridSize = this.state.gridSize;
     var deTraps = this.state.deTraps;
@@ -14327,7 +14390,7 @@ var Game = function (_Component) {
 
         var trap_class = '';
 
-        if (_this25.state.showTraps && trap_index > -1) {
+        if (_this27.state.showTraps && trap_index > -1) {
           trap_class = trap_class + ' trap-cell';
         }
         if (trap_index > -1 && detrap_index < 0) {
@@ -14337,17 +14400,7 @@ var Game = function (_Component) {
           trap_class = 'bg-dark';
         }
 
-        var style = {};
-
-        if (i == (gridSize.y - 1) / 2) {
-          style['borderBottom'] = '1px solid #007bff';
-        }
-
-        if (j == (gridSize.x - 1) / 2) {
-          style['borderRight'] = '1px solid #007bff';
-        }
-
-        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, style: style });
+        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class });
 
         cols_cell.push(c);
       };
@@ -14368,11 +14421,11 @@ var Game = function (_Component) {
 
   Game.prototype.renderUserDetails = function renderUserDetails() {
     var user = this.state.user;
-    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow-lg' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), _react2.default.createElement('small', null, user['api_token']))), _react2.default.createElement('div', { className: 'bg-primary rounded py-1 px-2 text-white shadow my-1 mt-2' }, _react2.default.createElement('div', { className: 'row text-center' }, _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Health'), _react2.default.createElement('div', null, this.state.health)), _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Points'), _react2.default.createElement('div', null, this.state.points)), _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Wood'), _react2.default.createElement('div', null, this.state.wood))))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
+    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow-lg' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, '#', user['name'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), _react2.default.createElement('small', null, user['api_token']))), _react2.default.createElement('div', { className: 'py-1 px-2 text-light bg-secondary rounded mt-2 shadow' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, 'Buy 8 HP for 25 points'), _react2.default.createElement('div', null, 'Buy 10 wood for 25 points'), _react2.default.createElement('div', null, 'Build a boat with 80 wood'))), _react2.default.createElement('div', { className: 'bg-primary rounded py-1 px-2 text-white shadow my-1 mt-2' }, _react2.default.createElement('div', { className: 'row text-center' }, _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'HP'), _react2.default.createElement('div', null, this.state.health)), _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Points'), _react2.default.createElement('div', null, this.state.points)), _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Wood'), _react2.default.createElement('div', null, this.state.wood))))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
   };
 
   Game.prototype.renderFinish = function renderFinish() {
-    var _this26 = this;
+    var _this28 = this;
 
     var styles = {
       position: 'fixed',
@@ -14382,7 +14435,7 @@ var Game = function (_Component) {
     var wood = this.state.wood;
     var boatWood = this.state.boatWood;
     return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'm-4' }, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: this.buyHealth.bind(this) }, 'Buy Health'), _react2.default.createElement('button', { className: 'btn btn-primary ml-3', onClick: this.buyWood.bind(this) }, 'Buy Wood'), _react2.default.createElement('button', { className: 'btn btn-success ml-3', onClick: this.buildBoat.bind(this), disabled: wood < boatWood }, 'Build Boat'), _react2.default.createElement('button', { className: 'btn btn-danger ml-3', onClick: function onClick() {
-        return _this26.finishGame();
+        return _this28.finishGame();
       } }, 'End Game')));
   };
 
@@ -14394,7 +14447,7 @@ var Game = function (_Component) {
     };
     var traps = this.state.traps.length;
     var detraps = this.state.deTraps.length;
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded p-2 m-4 shadow c-pointer' }, _react2.default.createElement('small', null, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: this.moveUp.bind(this) }, 'Move Up'), _react2.default.createElement('button', { className: 'btn btn-success ml-2', onClick: this.moveDown.bind(this) }, 'Move Down'), _react2.default.createElement('button', { className: 'btn btn-dark ml-2', onClick: this.moveLeft.bind(this) }, 'Move Left'), _react2.default.createElement('button', { className: 'btn btn-info ml-2', onClick: this.moveRight.bind(this) }, 'Move Right'))));
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded p-2 m-4 shadow c-pointer' }, _react2.default.createElement('small', null, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: this.moveUp.bind(this) }, 'Move Up'), _react2.default.createElement('button', { className: 'btn btn-primary ml-2', onClick: this.moveDown.bind(this) }, 'Move Down'), _react2.default.createElement('button', { className: 'btn btn-primary ml-2', onClick: this.moveLeft.bind(this) }, 'Move Left'), _react2.default.createElement('button', { className: 'btn btn-primary ml-2', onClick: this.moveRight.bind(this) }, 'Move Right'))));
   };
 
   Game.prototype.renderNotifications = function renderNotifications() {
@@ -14428,17 +14481,17 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderWin = function renderWin() {
-    var _this27 = this;
+    var _this29 = this;
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.winModal, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this27.winModal(false);
+        return _this29.winModal(false);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('h1', { className: 'p-5 text-center text-primary' }, 'You Won!'), _react2.default.createElement('div', { className: 'text-center' }, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: function onClick() {
-        return _this27.winModal(false);
+        return _this29.winModal(false);
       } }, 'Close')))));
   };
 
   Game.prototype.renderBigNotification = function renderBigNotification() {
-    var _this28 = this;
+    var _this30 = this;
 
     var instructions = this.state.instructions;
 
@@ -14447,7 +14500,7 @@ var Game = function (_Component) {
     }
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.bigNotification, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this28.bigNotification(true);
+        return _this30.bigNotification(true);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-4' }, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:'), _react2.default.createElement('div', null, this.state.instructions)))));
   };
 
@@ -14621,7 +14674,7 @@ var Home = function (_Component) {
   };
 
   Home.prototype.render = function render() {
-    return _react2.default.createElement('div', { className: 'position-relative' }, _react2.default.createElement('div', { className: 'text-center', style: { height: '100vh' } }, _react2.default.createElement('div', { className: 'page-center' }, _react2.default.createElement('div', { className: 'b-fluid shadow-lg p-5 rounded' }, _react2.default.createElement('h1', { className: 'text-primary mb-3' }, 'Adventure Game'), this.state.showLogin ? this.renderLogin() : this.renderCreateUser()))));
+    return _react2.default.createElement('div', { className: 'position-relative' }, _react2.default.createElement('div', { className: 'text-center', style: { height: '100vh' } }, _react2.default.createElement('div', { className: 'page-center' }, _react2.default.createElement('div', { className: 'b-fluid shadow p-5 rounded' }, _react2.default.createElement('div', { className: 'mb-3' }, _react2.default.createElement('div', { className: 'text-primary mt-1 h1 font-weight-light' }, 'Adventure Game')), this.state.showLogin ? this.renderLogin() : this.renderCreateUser()))));
   };
 
   Home.prototype.renderCreateUser = function renderCreateUser() {
