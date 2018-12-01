@@ -13886,7 +13886,7 @@ var Game = function (_Component) {
     if (!this.state.intro) {
       return;
     }
-    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true }, { message: 'You are here to save the soldiers', interval: 2000, fullscreen: true }, { message: "I'm gonna help you build a boat, follow my instructions and help the injured soldiers cross the island using the boat", interval: 10000, fullscreen: true }, { message: 'Collect points hidden in locations that are glowing green, to buy wood', interval: 6000, fullscreen: true }, { message: 'Every step you make consume your 1 of your Health Points(HP)', interval: 6000, fullscreen: true }, { message: 'You can buy medicine to impore your health', interval: 6000, fullscreen: true }, { message: 'It cost 25 points for 8 health', interval: 6000, fullscreen: true }, { message: 'You can buy 10 wood for 25 points', interval: 6000, fullscreen: true }, { message: 'Once you reached 80 wood, you can build boat and save the soilders', interval: 6000, fullscreen: true }, { message: 'Go, save them', interval: 2000, fullscreen: true }, { message: null, interval: 4000, fullscreen: false }];
+    var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true }, { message: 'You are here to save the soldiers', interval: 2000, fullscreen: true }, { message: "I'm gonna help you build a boat, follow my instructions and help the injured soldiers cross the island using the boat", interval: 10000, fullscreen: true }, { message: 'Collect points hidden in locations that are glowing green, to buy wood', interval: 6000, fullscreen: true }, { message: 'Every step you make consume your 1 of your Health Points(HP)', interval: 6000, fullscreen: true }, { message: 'You can buy medicine to impore your health', interval: 6000, fullscreen: true }, { message: 'It cost 25 points for 8 health', interval: 6000, fullscreen: true }, { message: 'You can buy 10 wood for 25 points', interval: 6000, fullscreen: true }, { message: 'Once you reached 80 wood, you can build boat and save the soilders', interval: 6000, fullscreen: true }, { message: 'Go, save them', interval: 2000, fullscreen: true }, { message: null, interval: 100, fullscreen: false }];
     this.setState({ messages: messages }, function () {
       _this4.botMessages();
     });
@@ -14033,7 +14033,7 @@ var Game = function (_Component) {
     var gridSize = this.state.gridSize;
     var health = this.state.health;
     userLocation['y'] = userLocation['y'] || 0;
-    if (userLocation['y'] < gridSize.y) {
+    if (userLocation['y'] < gridSize.y && health > 0) {
       userLocation['y'] = userLocation['y'] + 1;
       health = health - 1;
       this.setState({ userLocation: userLocation, health: health }, function () {
@@ -14048,7 +14048,7 @@ var Game = function (_Component) {
     var userLocation = this.state.userLocation;
     var health = this.state.health;
     userLocation['x'] = userLocation['x'] || 0;
-    if (userLocation['x'] > 0) {
+    if (userLocation['x'] > 0 && health > 0) {
       userLocation['x'] = userLocation['x'] - 1;
       health = health - 1;
       this.setState({ userLocation: userLocation, health: health }, function () {
@@ -14064,7 +14064,7 @@ var Game = function (_Component) {
     var gridSize = this.state.gridSize;
     var health = this.state.health;
     userLocation['x'] = userLocation['x'] || 0;
-    if (userLocation['x'] < gridSize.x) {
+    if (userLocation['x'] < gridSize.x && health > 0) {
       userLocation['x'] = userLocation['x'] + 1;
       health = health - 1;
       this.setState({ userLocation: userLocation, health: health }, function () {

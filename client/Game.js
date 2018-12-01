@@ -125,7 +125,7 @@ class Game extends Component {
       {message: `You can buy 10 wood for 25 points`, interval: 6000, fullscreen: true},
       {message: `Once you reached 80 wood, you can build boat and save the soilders`, interval: 6000, fullscreen: true},
       {message: `Go, save them`, interval: 2000, fullscreen: true},
-      {message: null, interval: 4000, fullscreen: false},
+      {message: null, interval: 100, fullscreen: false},
     ]
     this.setState({messages: messages}, () => {
       this.botMessages()
@@ -261,7 +261,7 @@ class Game extends Component {
     let gridSize = this.state.gridSize
     let health = this.state.health;
     userLocation['y'] = userLocation['y'] || 0
-    if (userLocation['y'] < gridSize.y) {
+    if (userLocation['y'] < gridSize.y && health > 0) {
       userLocation['y'] = userLocation['y'] + 1
       health = health - 1;
       this.setState({userLocation: userLocation, health: health}, () => {
@@ -274,7 +274,7 @@ class Game extends Component {
     let userLocation = this.state.userLocation;
     let health = this.state.health;
     userLocation['x'] = userLocation['x'] || 0
-    if (userLocation['x'] > 0) {
+    if (userLocation['x'] > 0 && health > 0) {
       userLocation['x'] = userLocation['x'] - 1
       health = health - 1;
       this.setState({userLocation: userLocation, health: health}, () => {
@@ -288,7 +288,7 @@ class Game extends Component {
     let gridSize = this.state.gridSize
     let health = this.state.health;
     userLocation['x'] = userLocation['x'] || 0
-    if (userLocation['x'] < gridSize.x) {
+    if (userLocation['x'] < gridSize.x && health > 0) {
       userLocation['x'] = userLocation['x'] + 1
       health = health - 1;
       this.setState({userLocation: userLocation, health: health}, () => {
