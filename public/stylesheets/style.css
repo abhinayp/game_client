@@ -36,9 +36,6 @@
   background-color: rgb(196, 195, 195);
 }
 
-.game-cell-hover:hover {
-  background-color: rgba(46, 46, 46, 1);
-}
 
 .trap-cell, .trap-cell:hover {
   background-color: rgba(30, 30, 30, 1);

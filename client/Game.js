@@ -27,13 +27,42 @@ class Game extends Component {
       winModal: false,
       bigNotification: false,
       riddleModal: true,
-      hint: {}
+      hint: {},
+      solvedRiddles: {},
+      answerNE: '',
+
+      health: 10,
+      points: 0,
+      wood: 0,
+      boatWood: 20,
+
+      userLocation: {x: 8, y: 8}
     }
   }
 
   componentDidMount() {
     this.setUser()
     // this.setMessages()
+  }
+
+  increaseHealthTimer() {
+    setTimeout(
+      function() {
+          let health = this.state.health
+          health = health + 10
+          this.setState({health: health}, () => {
+            this.updateGame()
+            this.increaseHealthTimer();
+          });
+      }
+      .bind(this),
+      30000
+  );
+  }
+
+  answerNE(event) {
+    let value = event.target.value;
+    this.setState({answerNE: value});
   }
 
   hideAll() {
@@ -44,6 +73,10 @@ class Game extends Component {
   winModal(status) {
     status = status || false
     this.setState({winModal: status})
+    if (!status) {
+      alert("Game finished")
+      this.logout()
+    }
   }
 
   bigNotification(status) {
@@ -53,7 +86,27 @@ class Game extends Component {
 
   riddleModal(status) {
     status = status || false
-    this.setState({riddleModal: status})
+    // this.setState({riddleModal: status})
+    this.setState({riddle: null})
+  }
+
+  solvedRiddles(direction) {
+    let solvedRiddles = this.state.solvedRiddles;
+    solvedRiddles[direction] = true
+    this.setState({solvedRiddles: solvedRiddles}, () => {
+      this.findHints()
+    })
+  }
+
+  submitAnswerRiddle() {
+    let answerNE = this.state.answerNE;
+    let riddle = this.state.riddle;
+
+    answerNE = answerNE.toLowerCase()
+    riddle['answer'] = riddle['answer'].toLowerCase()
+    if (answerNE == riddle['answer']) {
+      this.solvedRiddles('ne');
+    }
   }
 
   setMessages() {
@@ -112,6 +165,9 @@ class Game extends Component {
   findHints() {
     let traps = this.state.traps;
     let deTraps = this.state.deTraps;
+    let solvedRiddles = this.state.solvedRiddles;
+    let riddle = null;
+
     let direction = {
       nw: 0,
       ne: 0,
@@ -122,19 +178,20 @@ class Game extends Component {
     let untraps = traps.filter(t => deTraps.filter(dt => dt.x == t.x && dt.y == t.y).length <= 0)
 
     untraps.map((ut) => {
-      if (ut.x > 7 && ut.y < 7) {
+      if (ut.x > 8 && ut.y <= 8) {
         direction.ne++
       }
-      else if (ut.x > 7) {
+      else if (ut.x > 8) {
         direction.se++
       }
-      else if (ut.x < 7 && ut.y < 7) {
+      else if (ut.x < 8 && ut.y < 8) {
         direction.nw++
       }
-      else if (ut.x < 7) {
+      else if (ut.x < 8) {
         direction.sw++
       }
     })
+
 
     for (let key in direction) {
       let value = direction[key];
@@ -154,6 +211,8 @@ class Game extends Component {
         // this.gettraps()
         this.loadTraps();
         this.getDetraps();
+        this.getGame()
+        this.increaseHealthTimer();
       });
     }
     catch(e) {
@@ -173,17 +232,84 @@ class Game extends Component {
     // this.setState({traps: traps})
   }
 
+  moveUp() {
+    let userLocation = this.state.userLocation;
+    let health = this.state.health;
+    userLocation['y'] = userLocation['y'] || 0
+    if (userLocation['y'] > 0 && health > 0) {
+      health = health - 1;
+      userLocation['y'] = userLocation['y'] - 1
+      this.setState({userLocation: userLocation, health: health}, () => {
+        this.moveToUserLocation()
+      })
+    }
+  }
+
+  moveDown() {
+    let userLocation = this.state.userLocation;
+    let gridSize = this.state.gridSize
+    let health = this.state.health;
+    userLocation['y'] = userLocation['y'] || 0
+    if (userLocation['y'] < gridSize.y) {
+      userLocation['y'] = userLocation['y'] + 1
+      health = health - 1;
+      this.setState({userLocation: userLocation, health: health}, () => {
+        this.moveToUserLocation()
+      })
+    }
+  }
+
+  moveLeft() {
+    let userLocation = this.state.userLocation;
+    let health = this.state.health;
+    userLocation['x'] = userLocation['x'] || 0
+    if (userLocation['x'] > 0) {
+      userLocation['x'] = userLocation['x'] - 1
+      health = health - 1;
+      this.setState({userLocation: userLocation, health: health}, () => {
+        this.moveToUserLocation()
+      })
+    }
+  }
+
+  moveRight() {
+    let userLocation = this.state.userLocation;
+    let gridSize = this.state.gridSize
+    let health = this.state.health;
+    userLocation['x'] = userLocation['x'] || 0
+    if (userLocation['x'] < gridSize.x) {
+      userLocation['x'] = userLocation['x'] + 1
+      health = health - 1;
+      this.setState({userLocation: userLocation, health: health}, () => {
+        this.moveToUserLocation()
+      })
+    }
+  }
+
+  moveToUserLocation() {
+    let userLocation = this.state.userLocation;
+    let x = userLocation['x'] || 0
+    let y = userLocation['y'] || 0
+    this.onClickDetrap(null, x, y)
+    this.updateGame()
+  }
+
   onClickDetrap(event, x, y) {
-    event.target.classList.remove('trap-cell-fail')
     if (this.state.showTraps) {
       alert("Game finished")
       this.logout()
       return;
     }
-    this.findHints()
+    // this.findHints()
     let followDetrapCells = this.state.followDetrapCells
     let trap = {x: x, y: y};
-    if (this.trapExist(trap)) {
+    let t = this.trapExist(trap);
+    if (t) {
+      let points = this.state.points;
+      points = parseInt(points) + parseInt(t['points'])
+      this.setState({points: points}, () => {
+        this.updateGame();
+      })
       this.createDetrap(trap);
     }
     followDetrapCells.push(trap)
@@ -252,13 +378,15 @@ class Game extends Component {
   }
 
   trapExist(trap) {
-    let traps = this.state.traps;
+    let traps = this.state.traps || [];
+    let deTraps = this.state.deTraps || [];
     let findTrap = traps.findIndex(t => t.x == trap.x && t.y == trap.y)
-    if (findTrap < 0) {
+    let findDetrap = deTraps.findIndex(d => d.x == trap.x && d.y == trap.y);
+    if (findTrap < 0 || findDetrap > -1) {
       return false;
     }
 
-    return true;
+    return traps[findTrap];
   }
 
 
@@ -270,7 +398,7 @@ class Game extends Component {
         if (traps) {
           let state = {deTraps: traps}
           this.setState(state, () => {
-            this.checkWin();
+            // this.checkWin();
           });
         }
       })
@@ -289,21 +417,77 @@ class Game extends Component {
       })
   }
 
+  finishGame() {
+    this.showTraps();
+    this.logout();
+  }
+
   showTraps(status) {
-    this.setState({showTraps: true}, () => {
-      axios.post(`http://localhost:5000/finish_game`, {})
-        .then(res => {
-          const traps = res.data;
-        })
-    })
+    axios.post(`http://localhost:5000/finish_game`, {})
+      .then(res => {
+        const traps = res.data;
+      })
   }
 
   generateGame() {
     axios.post(`http://localhost:5000/generate_game`, {})
       .then(res => {
-        const traps = res.data;
+        const game = res.data;
+        if (game) {
+          this.setState({health: game['health'], points: game['points']})
+        }
         this.loadTraps()
       })
+  }
+
+  updateGame() {
+    axios.post(`http://localhost:5000/update_game`, {health: this.state.health, points: this.state.points})
+      .then(res => {
+        const game = res.data;
+        if (game) {
+          this.getGame()
+        }
+      })
+  }
+
+  getGame() {
+    axios.get(`http://localhost:5000/get_game`)
+      .then(res => {
+        const game = res.data;
+        if (game) {
+          this.setState({health: game['health'], points: game['points'], wood: game['wood']})
+        }
+      })
+  }
+
+  buyHealth() {
+    axios.post(`http://localhost:5000/buy_health`, {})
+      .then(res => {
+        const game = res.data;
+        if (game) {
+          this.getGame()
+        }
+      })
+  }
+
+  buyWood() {
+    axios.post(`http://localhost:5000/buy_wood`, {})
+      .then(res => {
+        const game = res.data;
+        if (game) {
+          this.getGame()
+        }
+      })
+  }
+
+  buildBoat() {
+    let wood = this.state.wood;
+    let boatWood = this.state.boatWood;
+    if (wood >= boatWood) {
+      this.setState({win: true, winModal: true}, () => {
+        this.showTraps(true)
+      })
+    }
   }
 
   checkWin() {
@@ -331,7 +515,6 @@ class Game extends Component {
           {this.renderWin()}
           {this.renderBigNotification()}
           {this.renderHideAll()}
-          {this.renderRiddle()}
         </div>
       </div>
     )
@@ -349,6 +532,7 @@ class Game extends Component {
     let gridSize = this.state.gridSize;
     let deTraps = this.state.deTraps;
     let traps = this.state.traps;
+    let userLocation = this.state.userLocation;
     let rows_cell = [];
 
     for (let i=0; i<=gridSize.y; i++) {
@@ -359,14 +543,15 @@ class Game extends Component {
         let trap_index = traps.findIndex(t => t.x == j && t.y ==i)
 
         let trap_class = ''
-        if (!this.state.showTraps) {
-          trap_class = `game-cell-hover c-pointer`
-        }
+
         if (this.state.showTraps && trap_index > -1) {
           trap_class = `${trap_class} trap-cell`
         }
-        if (detrap_index > -1) {
+        if (trap_index > -1 && detrap_index < 0) {
           trap_class = 'trap-cell-success'
+        }
+        if (j == userLocation.x && i == userLocation.y) {
+          trap_class = 'bg-dark'
         }
 
         let style = {}
@@ -380,7 +565,7 @@ class Game extends Component {
         }
 
         let c = (
-          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} style={style} onClick={(event) => this.onClickDetrap(event, j, i) }></td>
+          <td key={j} data-x={j} data-y={i} className={`game-cell ${trap_class}`} style={style}></td>
         )
 
         cols_cell.push(c);
@@ -410,8 +595,31 @@ class Game extends Component {
                 <div>
                   <small>Password</small>
                 </div>
-                {user['api_token']}
+                <small>{user['api_token']}</small>
               </small>
+            </div>
+            <div className="bg-primary rounded py-1 px-2 text-white shadow my-1 mt-2">
+              <div className="row text-center">
+                <div className="col-md-4">
+                  <small>Health</small>
+                  <div>
+                    {this.state.health}
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <small>Points</small>
+                  <div>
+                    {this.state.points}
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <small>Wood</small>
+                  <div>
+                    {this.state.wood}
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
           <div className="btn-danger text-center px-2 py-1 rounded-bottom c-pointer" onClick={this.logout.bind(this)}>
@@ -428,10 +636,18 @@ class Game extends Component {
       bottom: 0,
       right: 0,
     }
+    let wood = this.state.wood;
+    let boatWood = this.state.boatWood;
     return (
       <div style={styles}>
-        <div className="btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer font-weight-light" onClick={() => this.showTraps(true)}>
+        {/* <div className="btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer font-weight-light" onClick={() => this.showTraps(true)}>
           Finish
+        </div> */}
+        <div className="m-4">
+          <button className="btn btn-primary" onClick={this.buyHealth.bind(this)}>Buy Health</button>
+          <button className="btn btn-primary ml-3" onClick={this.buyWood.bind(this)}>Buy Wood</button>
+          <button className="btn btn-success ml-3" onClick={this.buildBoat.bind(this)} disabled={wood < boatWood}>Build Boat</button>
+          <button className="btn btn-danger ml-3" onClick={() => this.finishGame()}>End Game</button>
         </div>
       </div>
     )
@@ -449,9 +665,10 @@ class Game extends Component {
       <div style={styles}>
         <div className="btn-light rounded p-2 m-4 shadow c-pointer">
           <small>
-            <span className="bg-primary text-light px-1 py-1 rounded">Total traps - {traps}</span>
-            <span className="bg-success text-light px-1 py-1 rounded ml-2">Traps Defused- {detraps}</span>
-            <span className="bg-danger text-light px-1 py-1 rounded ml-2">Traps Remaining- {traps - detraps}</span>
+            <button className="btn btn-primary" onClick={this.moveUp.bind(this)}>Move Up</button>
+            <button className="btn btn-success ml-2" onClick={this.moveDown.bind(this)}>Move Down</button>
+            <button className="btn btn-dark ml-2" onClick={this.moveLeft.bind(this)}>Move Left</button>
+            <button className="btn btn-info ml-2" onClick={this.moveRight.bind(this)}>Move Right</button>
           </small>
         </div>
       </div>
@@ -545,60 +762,6 @@ class Game extends Component {
       )
   }
 
-  renderRiddle() {
-    let riddle = this.state.riddle;
-    let title = "Riddle";
-
-    if (!riddle) {
-      return '';
-    }
-
-    if (riddle['question'] == 'jumble') {
-      riddle['question'] = riddle['answer']
-      riddle['answer'] = null
-      title = "Jumble"
-    }
-    else if (riddle['question'] == 'options') {
-      title = "Bomb is located in one of the following"
-      riddle['question'] = riddle['answer'].map((r, index) => {
-        return (
-          <div key={index} className="my-2">
-            {r}
-          </div>
-        )
-      })
-      riddle['answer'] = null
-    }
-
-    return (
-      <Modal visible={this.state.riddleModal} effect="fadeInDown" onClickAway={() => this.riddleModal(true)}>
-        <div className="modal-dialog">
-          <div className="modal-content border-0">
-            <div className="px-4 text-center">
-              <small className="text-secondary">{title}</small>
-              <div>
-                {riddle['question']}
-              </div>
-              {
-                riddle['answer'] ? (
-                  <div className="mt-2">
-                    <input type="text" className="form-control" placeholder="Answer" />
-                    <div className="mt-3">
-                      <button className="btn btn-primary">Submit Answer</button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mt-3">
-                    <button className="btn btn-default border" onClick={() => this.riddleModal(false)}>Close</button>
-                  </div>
-                )
-              }
-            </div>
-          </div>
-        </div>
-      </Modal>
-    )
-}
 
 }
 

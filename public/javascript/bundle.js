@@ -13796,7 +13796,16 @@ var Game = function (_Component) {
       winModal: false,
       bigNotification: false,
       riddleModal: true,
-      hint: {}
+      hint: {},
+      solvedRiddles: {},
+      answerNE: '',
+
+      health: 10,
+      points: 0,
+      wood: 0,
+      boatWood: 20,
+
+      userLocation: { x: 8, y: 8 }
     };
     return _this;
   }
@@ -13804,6 +13813,24 @@ var Game = function (_Component) {
   Game.prototype.componentDidMount = function componentDidMount() {
     this.setUser();
     // this.setMessages()
+  };
+
+  Game.prototype.increaseHealthTimer = function increaseHealthTimer() {
+    setTimeout(function () {
+      var _this2 = this;
+
+      var health = this.state.health;
+      health = health + 10;
+      this.setState({ health: health }, function () {
+        _this2.updateGame();
+        _this2.increaseHealthTimer();
+      });
+    }.bind(this), 30000);
+  };
+
+  Game.prototype.answerNE = function answerNE(event) {
+    var value = event.target.value;
+    this.setState({ answerNE: value });
   };
 
   Game.prototype.hideAll = function hideAll() {
@@ -13814,6 +13841,10 @@ var Game = function (_Component) {
   Game.prototype.winModal = function winModal(status) {
     status = status || false;
     this.setState({ winModal: status });
+    if (!status) {
+      alert("Game finished");
+      this.logout();
+    }
   };
 
   Game.prototype.bigNotification = function bigNotification(status) {
@@ -13823,32 +13854,54 @@ var Game = function (_Component) {
 
   Game.prototype.riddleModal = function riddleModal(status) {
     status = status || false;
-    this.setState({ riddleModal: status });
+    // this.setState({riddleModal: status})
+    this.setState({ riddle: null });
+  };
+
+  Game.prototype.solvedRiddles = function solvedRiddles(direction) {
+    var _this3 = this;
+
+    var solvedRiddles = this.state.solvedRiddles;
+    solvedRiddles[direction] = true;
+    this.setState({ solvedRiddles: solvedRiddles }, function () {
+      _this3.findHints();
+    });
+  };
+
+  Game.prototype.submitAnswerRiddle = function submitAnswerRiddle() {
+    var answerNE = this.state.answerNE;
+    var riddle = this.state.riddle;
+
+    answerNE = answerNE.toLowerCase();
+    riddle['answer'] = riddle['answer'].toLowerCase();
+    if (answerNE == riddle['answer']) {
+      this.solvedRiddles('ne');
+    }
   };
 
   Game.prototype.setMessages = function setMessages() {
-    var _this2 = this;
+    var _this4 = this;
 
     var messages = [{ message: "Hi, I'm Felicity Smoak. You can call me Overwatch", interval: 4000, fullscreen: true }, { message: 'You are here to save the soldiers', interval: 2000, fullscreen: true }, { message: "I'm gonna help you find the traps set by your enimies, follow my instructions and help the injured soldiers cross the battle field", interval: 10000, fullscreen: true }, { message: null, interval: 40000, fullscreen: false }, { message: 'You found ' + this.state.deTraps.length + ' traps, keep going!', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }, { message: 'There are ' + (this.state.traps.length - this.state.deTraps.length) + ' traps remaining', interval: 5000, fullscreen: false }, { message: null, interval: 4000, fullscreen: false }];
     this.setState({ messages: messages }, function () {
-      _this2.botMessages();
+      _this4.botMessages();
     });
   };
 
   Game.prototype.nextMessage = function nextMessage() {
-    var _this3 = this;
+    var _this5 = this;
 
     var messageNumber = this.state.messageNumber || 0;
     messageNumber++;
     this.setState({ messageNumber: messageNumber }, function () {
-      if (_this3.state.messages.length > messageNumber) {
-        _this3.setMessages();
+      if (_this5.state.messages.length > messageNumber) {
+        _this5.setMessages();
       }
     });
   };
 
   Game.prototype.botMessages = function botMessages(m, b) {
-    var _this4 = this;
+    var _this6 = this;
 
     var noNext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
     var interval_m = arguments[3];
@@ -13871,7 +13924,7 @@ var Game = function (_Component) {
     this.setState({ instructions: m, bigNotification: b }, function () {
       if (!noNext) {
         setTimeout(function () {
-          _this4.nextMessage();
+          _this6.nextMessage();
         }, interval_m);
       }
     });
@@ -13880,6 +13933,9 @@ var Game = function (_Component) {
   Game.prototype.findHints = function findHints() {
     var traps = this.state.traps;
     var deTraps = this.state.deTraps;
+    var solvedRiddles = this.state.solvedRiddles;
+    var riddle = null;
+
     var direction = {
       nw: 0,
       ne: 0,
@@ -13894,13 +13950,13 @@ var Game = function (_Component) {
     });
 
     untraps.map(function (ut) {
-      if (ut.x > 7 && ut.y < 7) {
+      if (ut.x > 8 && ut.y <= 8) {
         direction.ne++;
-      } else if (ut.x > 7) {
+      } else if (ut.x > 8) {
         direction.se++;
-      } else if (ut.x < 7 && ut.y < 7) {
+      } else if (ut.x < 8 && ut.y < 8) {
         direction.nw++;
-      } else if (ut.x < 7) {
+      } else if (ut.x < 8) {
         direction.sw++;
       }
     });
@@ -13918,13 +13974,15 @@ var Game = function (_Component) {
   };
 
   Game.prototype.setUser = function setUser() {
-    var _this5 = this;
+    var _this7 = this;
 
     try {
       this.getUser(function () {
         // this.gettraps()
-        _this5.loadTraps();
-        _this5.getDetraps();
+        _this7.loadTraps();
+        _this7.getDetraps();
+        _this7.getGame();
+        _this7.increaseHealthTimer();
       });
     } catch (e) {
       console.log(e);
@@ -13945,17 +14003,94 @@ var Game = function (_Component) {
     // this.setState({traps: traps})
   };
 
+  Game.prototype.moveUp = function moveUp() {
+    var _this8 = this;
+
+    var userLocation = this.state.userLocation;
+    var health = this.state.health;
+    userLocation['y'] = userLocation['y'] || 0;
+    if (userLocation['y'] > 0 && health > 0) {
+      health = health - 1;
+      userLocation['y'] = userLocation['y'] - 1;
+      this.setState({ userLocation: userLocation, health: health }, function () {
+        _this8.moveToUserLocation();
+      });
+    }
+  };
+
+  Game.prototype.moveDown = function moveDown() {
+    var _this9 = this;
+
+    var userLocation = this.state.userLocation;
+    var gridSize = this.state.gridSize;
+    var health = this.state.health;
+    userLocation['y'] = userLocation['y'] || 0;
+    if (userLocation['y'] < gridSize.y) {
+      userLocation['y'] = userLocation['y'] + 1;
+      health = health - 1;
+      this.setState({ userLocation: userLocation, health: health }, function () {
+        _this9.moveToUserLocation();
+      });
+    }
+  };
+
+  Game.prototype.moveLeft = function moveLeft() {
+    var _this10 = this;
+
+    var userLocation = this.state.userLocation;
+    var health = this.state.health;
+    userLocation['x'] = userLocation['x'] || 0;
+    if (userLocation['x'] > 0) {
+      userLocation['x'] = userLocation['x'] - 1;
+      health = health - 1;
+      this.setState({ userLocation: userLocation, health: health }, function () {
+        _this10.moveToUserLocation();
+      });
+    }
+  };
+
+  Game.prototype.moveRight = function moveRight() {
+    var _this11 = this;
+
+    var userLocation = this.state.userLocation;
+    var gridSize = this.state.gridSize;
+    var health = this.state.health;
+    userLocation['x'] = userLocation['x'] || 0;
+    if (userLocation['x'] < gridSize.x) {
+      userLocation['x'] = userLocation['x'] + 1;
+      health = health - 1;
+      this.setState({ userLocation: userLocation, health: health }, function () {
+        _this11.moveToUserLocation();
+      });
+    }
+  };
+
+  Game.prototype.moveToUserLocation = function moveToUserLocation() {
+    var userLocation = this.state.userLocation;
+    var x = userLocation['x'] || 0;
+    var y = userLocation['y'] || 0;
+    this.onClickDetrap(null, x, y);
+    this.updateGame();
+  };
+
   Game.prototype.onClickDetrap = function onClickDetrap(event, x, y) {
-    event.target.classList.remove('trap-cell-fail');
+    var _this12 = this;
+
     if (this.state.showTraps) {
       alert("Game finished");
       this.logout();
       return;
     }
-    this.findHints();
+    // this.findHints()
     var followDetrapCells = this.state.followDetrapCells;
     var trap = { x: x, y: y };
-    if (this.trapExist(trap)) {
+    var t = this.trapExist(trap);
+    if (t) {
+      var points = this.state.points;
+      points = parseInt(points) + parseInt(t['points']);
+      this.setState({ points: points }, function () {
+        _this12.updateGame();
+      });
       this.createDetrap(trap);
     }
     followDetrapCells.push(trap);
@@ -13963,7 +14098,7 @@ var Game = function (_Component) {
   };
 
   Game.prototype.getUser = function getUser(callback) {
-    var _this6 = this;
+    var _this13 = this;
 
     var user = JSON.parse(localStorage['user']);
     _axios2.default.get('http://localhost:5000/users/' + user['id']).then(function (res) {
@@ -13971,7 +14106,7 @@ var Game = function (_Component) {
       if (u) {
         localStorage['user'] = JSON.stringify(u);
         _axios2.default.defaults.headers.common['Authorization'] = u['api_token'];
-        _this6.setState({ user: u });
+        _this13.setState({ user: u });
       }
       if (callback) {
         callback();
@@ -13985,19 +14120,19 @@ var Game = function (_Component) {
   };
 
   Game.prototype.gettraps = function gettraps() {
-    var _this7 = this;
+    var _this14 = this;
 
     var user = JSON.parse(localStorage['user']);
     _axios2.default.get('http://localhost:5000/traps/' + user['role']).then(function (res) {
       var traps = res.data;
       if (traps) {
-        _this7.setState({ traps: traps });
+        _this14.setState({ traps: traps });
       }
     });
   };
 
   Game.prototype.loadTraps = function loadTraps() {
-    var _this8 = this;
+    var _this15 = this;
 
     var user = JSON.parse(localStorage['user']);
     var role = 'hero';
@@ -14008,53 +14143,57 @@ var Game = function (_Component) {
       var traps = res.data;
       if (traps) {
         if (Array.isArray(traps) && traps.length < 1) {
-          _this8.generateGame().bind(_this8);
+          _this15.generateGame().bind(_this15);
         }
-        _this8.setState({ traps: traps });
+        _this15.setState({ traps: traps });
       } else {
-        _this8.generateGame().bind(_this8);
+        _this15.generateGame().bind(_this15);
       }
     });
   };
 
   Game.prototype.createTrap = function createTrap(trap) {
-    var _this9 = this;
+    var _this16 = this;
 
     _axios2.default.post('http://localhost:5000/create_trap', trap).then(function (res) {
       var traps = res.data;
-      _this9.gettraps();
+      _this16.gettraps();
     });
   };
 
   Game.prototype.trapExist = function trapExist(trap) {
-    var traps = this.state.traps;
+    var traps = this.state.traps || [];
+    var deTraps = this.state.deTraps || [];
     var findTrap = traps.findIndex(function (t) {
       return t.x == trap.x && t.y == trap.y;
     });
-    if (findTrap < 0) {
+    var findDetrap = deTraps.findIndex(function (d) {
+      return d.x == trap.x && d.y == trap.y;
+    });
+    if (findTrap < 0 || findDetrap > -1) {
       return false;
     }
 
-    return true;
+    return traps[findTrap];
   };
 
   Game.prototype.getDetraps = function getDetraps() {
-    var _this10 = this;
+    var _this17 = this;
 
     var user = JSON.parse(localStorage['user']);
     _axios2.default.get('http://localhost:5000/detraps/' + user['role']).then(function (res) {
       var traps = res.data;
       if (traps) {
         var state = { deTraps: traps };
-        _this10.setState(state, function () {
-          _this10.checkWin();
+        _this17.setState(state, function () {
+          // this.checkWin();
         });
       }
     });
   };
 
   Game.prototype.createDetrap = function createDetrap(trap) {
-    var _this11 = this;
+    var _this18 = this;
 
     var deTrap = this.state.deTraps || [];
     var findDetrap = deTrap.findIndex(function (d) {
@@ -14065,25 +14204,87 @@ var Game = function (_Component) {
     }
     _axios2.default.post('http://localhost:5000/create_detrap', trap).then(function (res) {
       var traps = res.data;
-      _this11.getDetraps();
+      _this18.getDetraps();
     });
   };
 
+  Game.prototype.finishGame = function finishGame() {
+    this.showTraps();
+    this.logout();
+  };
+
   Game.prototype.showTraps = function showTraps(status) {
-    this.setState({ showTraps: true }, function () {
-      _axios2.default.post('http://localhost:5000/finish_game', {}).then(function (res) {
-        var traps = res.data;
-      });
+    _axios2.default.post('http://localhost:5000/finish_game', {}).then(function (res) {
+      var traps = res.data;
     });
   };
 
   Game.prototype.generateGame = function generateGame() {
-    var _this12 = this;
+    var _this19 = this;
 
     _axios2.default.post('http://localhost:5000/generate_game', {}).then(function (res) {
-      var traps = res.data;
-      _this12.loadTraps();
+      var game = res.data;
+      if (game) {
+        _this19.setState({ health: game['health'], points: game['points'] });
+      }
+      _this19.loadTraps();
     });
+  };
+
+  Game.prototype.updateGame = function updateGame() {
+    var _this20 = this;
+
+    _axios2.default.post('http://localhost:5000/update_game', { health: this.state.health, points: this.state.points }).then(function (res) {
+      var game = res.data;
+      if (game) {
+        _this20.getGame();
+      }
+    });
+  };
+
+  Game.prototype.getGame = function getGame() {
+    var _this21 = this;
+
+    _axios2.default.get('http://localhost:5000/get_game').then(function (res) {
+      var game = res.data;
+      if (game) {
+        _this21.setState({ health: game['health'], points: game['points'], wood: game['wood'] });
+      }
+    });
+  };
+
+  Game.prototype.buyHealth = function buyHealth() {
+    var _this22 = this;
+
+    _axios2.default.post('http://localhost:5000/buy_health', {}).then(function (res) {
+      var game = res.data;
+      if (game) {
+        _this22.getGame();
+      }
+    });
+  };
+
+  Game.prototype.buyWood = function buyWood() {
+    var _this23 = this;
+
+    _axios2.default.post('http://localhost:5000/buy_wood', {}).then(function (res) {
+      var game = res.data;
+      if (game) {
+        _this23.getGame();
+      }
+    });
+  };
+
+  Game.prototype.buildBoat = function buildBoat() {
+    var _this24 = this;
+
+    var wood = this.state.wood;
+    var boatWood = this.state.boatWood;
+    if (wood >= boatWood) {
+      this.setState({ win: true, winModal: true }, function () {
+        _this24.showTraps(true);
+      });
+    }
   };
 
   Game.prototype.checkWin = function checkWin() {
@@ -14096,7 +14297,7 @@ var Game = function (_Component) {
 
   Game.prototype.render = function render() {
 
-    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderBigNotification(), this.renderHideAll(), this.renderRiddle()));
+    return _react2.default.createElement('div', null, _react2.default.createElement('div', null, this.renderTable(), this.state.hideAll ? '' : _react2.default.createElement('div', null, this.renderUserDetails(), this.state.showTraps ? '' : this.renderFinish(), this.renderNotifications(), this.renderStats()), this.renderWin(), this.renderBigNotification(), this.renderHideAll()));
   };
 
   Game.prototype.renderTable = function renderTable() {
@@ -14104,11 +14305,12 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderTableBody = function renderTableBody() {
-    var _this13 = this;
+    var _this25 = this;
 
     var gridSize = this.state.gridSize;
     var deTraps = this.state.deTraps;
     var traps = this.state.traps;
+    var userLocation = this.state.userLocation;
     var rows_cell = [];
 
     var _loop = function _loop(i) {
@@ -14124,14 +14326,15 @@ var Game = function (_Component) {
         });
 
         var trap_class = '';
-        if (!_this13.state.showTraps) {
-          trap_class = 'game-cell-hover c-pointer';
-        }
-        if (_this13.state.showTraps && trap_index > -1) {
+
+        if (_this25.state.showTraps && trap_index > -1) {
           trap_class = trap_class + ' trap-cell';
         }
-        if (detrap_index > -1) {
+        if (trap_index > -1 && detrap_index < 0) {
           trap_class = 'trap-cell-success';
+        }
+        if (j == userLocation.x && i == userLocation.y) {
+          trap_class = 'bg-dark';
         }
 
         var style = {};
@@ -14144,9 +14347,7 @@ var Game = function (_Component) {
           style['borderRight'] = '1px solid #007bff';
         }
 
-        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, style: style, onClick: function onClick(event) {
-            return _this13.onClickDetrap(event, j, i);
-          } });
+        var c = _react2.default.createElement('td', { key: j, 'data-x': j, 'data-y': i, className: 'game-cell ' + trap_class, style: style });
 
         cols_cell.push(c);
       };
@@ -14167,20 +14368,22 @@ var Game = function (_Component) {
 
   Game.prototype.renderUserDetails = function renderUserDetails() {
     var user = this.state.user;
-    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow-lg' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), user['api_token']))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
+    return _react2.default.createElement('div', { className: 'user-details' }, _react2.default.createElement('div', { className: 'bg-light m-4 rounded shadow-lg' }, _react2.default.createElement('div', { className: 'px-3 py-2' }, _react2.default.createElement('div', null, _react2.default.createElement('span', { className: 'text-primary' }, user['name']), _react2.default.createElement('small', { className: 'bg-secondary text-light px-2 py-1 rounded ml-1' }, user['role'])), _react2.default.createElement('div', { className: 'py-1 px-2 bg-primary text-white shadow rounded my-1 mt-2' }, _react2.default.createElement('small', null, _react2.default.createElement('div', null, _react2.default.createElement('small', null, 'Password')), _react2.default.createElement('small', null, user['api_token']))), _react2.default.createElement('div', { className: 'bg-primary rounded py-1 px-2 text-white shadow my-1 mt-2' }, _react2.default.createElement('div', { className: 'row text-center' }, _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Health'), _react2.default.createElement('div', null, this.state.health)), _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Points'), _react2.default.createElement('div', null, this.state.points)), _react2.default.createElement('div', { className: 'col-md-4' }, _react2.default.createElement('small', null, 'Wood'), _react2.default.createElement('div', null, this.state.wood))))), _react2.default.createElement('div', { className: 'btn-danger text-center px-2 py-1 rounded-bottom c-pointer', onClick: this.logout.bind(this) }, 'Logout')));
   };
 
   Game.prototype.renderFinish = function renderFinish() {
-    var _this14 = this;
+    var _this26 = this;
 
     var styles = {
       position: 'fixed',
       bottom: 0,
       right: 0
     };
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-primary rounded px-4 py-2 m-4 h2 shadow c-pointer font-weight-light', onClick: function onClick() {
-        return _this14.showTraps(true);
-      } }, 'Finish'));
+    var wood = this.state.wood;
+    var boatWood = this.state.boatWood;
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'm-4' }, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: this.buyHealth.bind(this) }, 'Buy Health'), _react2.default.createElement('button', { className: 'btn btn-primary ml-3', onClick: this.buyWood.bind(this) }, 'Buy Wood'), _react2.default.createElement('button', { className: 'btn btn-success ml-3', onClick: this.buildBoat.bind(this), disabled: wood < boatWood }, 'Build Boat'), _react2.default.createElement('button', { className: 'btn btn-danger ml-3', onClick: function onClick() {
+        return _this26.finishGame();
+      } }, 'End Game')));
   };
 
   Game.prototype.renderStats = function renderStats() {
@@ -14191,7 +14394,7 @@ var Game = function (_Component) {
     };
     var traps = this.state.traps.length;
     var detraps = this.state.deTraps.length;
-    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded p-2 m-4 shadow c-pointer' }, _react2.default.createElement('small', null, _react2.default.createElement('span', { className: 'bg-primary text-light px-1 py-1 rounded' }, 'Total traps - ', traps), _react2.default.createElement('span', { className: 'bg-success text-light px-1 py-1 rounded ml-2' }, 'Traps Defused- ', detraps), _react2.default.createElement('span', { className: 'bg-danger text-light px-1 py-1 rounded ml-2' }, 'Traps Remaining- ', traps - detraps))));
+    return _react2.default.createElement('div', { style: styles }, _react2.default.createElement('div', { className: 'btn-light rounded p-2 m-4 shadow c-pointer' }, _react2.default.createElement('small', null, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: this.moveUp.bind(this) }, 'Move Up'), _react2.default.createElement('button', { className: 'btn btn-success ml-2', onClick: this.moveDown.bind(this) }, 'Move Down'), _react2.default.createElement('button', { className: 'btn btn-dark ml-2', onClick: this.moveLeft.bind(this) }, 'Move Left'), _react2.default.createElement('button', { className: 'btn btn-info ml-2', onClick: this.moveRight.bind(this) }, 'Move Right'))));
   };
 
   Game.prototype.renderNotifications = function renderNotifications() {
@@ -14225,17 +14428,17 @@ var Game = function (_Component) {
   };
 
   Game.prototype.renderWin = function renderWin() {
-    var _this15 = this;
+    var _this27 = this;
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.winModal, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this15.winModal(false);
+        return _this27.winModal(false);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('h1', { className: 'p-5 text-center text-primary' }, 'You Won!'), _react2.default.createElement('div', { className: 'text-center' }, _react2.default.createElement('button', { className: 'btn btn-primary', onClick: function onClick() {
-        return _this15.winModal(false);
+        return _this27.winModal(false);
       } }, 'Close')))));
   };
 
   Game.prototype.renderBigNotification = function renderBigNotification() {
-    var _this16 = this;
+    var _this28 = this;
 
     var instructions = this.state.instructions;
 
@@ -14244,37 +14447,8 @@ var Game = function (_Component) {
     }
 
     return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.bigNotification, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this16.bigNotification(true);
+        return _this28.bigNotification(true);
       } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: 'px-4' }, _react2.default.createElement('small', { className: 'text-secondary' }, 'Felicity:'), _react2.default.createElement('div', null, this.state.instructions)))));
-  };
-
-  Game.prototype.renderRiddle = function renderRiddle() {
-    var _this17 = this;
-
-    var riddle = this.state.riddle;
-    var title = "Riddle";
-
-    if (!riddle) {
-      return '';
-    }
-
-    if (riddle['question'] == 'jumble') {
-      riddle['question'] = riddle['answer'];
-      riddle['answer'] = null;
-      title = "Jumble";
-    } else if (riddle['question'] == 'options') {
-      title = "Bomb is located in one of the following";
-      riddle['question'] = riddle['answer'].map(function (r, index) {
-        return _react2.default.createElement('div', { key: index, className: 'my-2' }, r);
-      });
-      riddle['answer'] = null;
-    }
-
-    return _react2.default.createElement(_reactAwesomeModal2.default, { visible: this.state.riddleModal, effect: 'fadeInDown', onClickAway: function onClickAway() {
-        return _this17.riddleModal(true);
-      } }, _react2.default.createElement('div', { className: 'modal-dialog' }, _react2.default.createElement('div', { className: 'modal-content border-0' }, _react2.default.createElement('div', { className: 'px-4 text-center' }, _react2.default.createElement('small', { className: 'text-secondary' }, title), _react2.default.createElement('div', null, riddle['question']), riddle['answer'] ? _react2.default.createElement('div', { className: 'mt-2' }, _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Answer' }), _react2.default.createElement('div', { className: 'mt-3' }, _react2.default.createElement('button', { className: 'btn btn-primary' }, 'Submit Answer'))) : _react2.default.createElement('div', { className: 'mt-3' }, _react2.default.createElement('button', { className: 'btn btn-default border', onClick: function onClick() {
-        return _this17.riddleModal(false);
-      } }, 'Close'))))));
   };
 
   return Game;
