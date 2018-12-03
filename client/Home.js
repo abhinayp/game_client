@@ -75,8 +75,10 @@ class Home extends Component {
       <div className="position-relative">
         <div className="text-center" style={{height: '100vh'}}>
           <div className="page-center">
-            <div className="b-fluid shadow-lg p-5 rounded">
-              <h1 className="text-primary mb-3">Adventure Game</h1>
+            <div className="b-fluid shadow p-5 rounded">
+              <div className="mb-3">
+                <div className="text-primary mt-1 h1 font-weight-light">Adventure Game</div>
+              </div>
               {this.state.showLogin ? this.renderLogin() : this.renderCreateUser()}
             </div>
           </div>
