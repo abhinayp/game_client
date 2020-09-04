@@ -16,7 +16,7 @@
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "kerberos": "^1.0.0",
-    "mongodb": "^2.2.33",
+    "mongodb": "^3.6.1",
     "morgan": "~1.9.0",
     "nodemon": "^1.18.3",
     "concurrently": "^4.0.0",
